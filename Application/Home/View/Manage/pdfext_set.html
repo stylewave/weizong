@@ -1,0 +1,57 @@
+<include file="Layout/header" />
+
+<div class="layout ws10 mac content afcf settingBox">
+  <div class="mt30 bc2box br10 p30 ofh">
+    <div class="ws2 fl sleft">
+      <ul class="fs14 lh30 mr30 tac">
+        <li class="mt5"><a href="{:U('Manage/info_manage')}">账户管理</a></li>
+        <li class="mt5"><a href="{:U('Vocationtype/list_vocationtype')}">应用类型</a></li>
+        <li class="mt5"><a href="{:U('Company/list_company')}">部门名称</a></li>
+        <li class="mt5"><a href="{:U('Manage/log_manage')}">日志管理</a></li>
+        <li class="bc1box br3 mt5"><a href="{:U('Manage/pdfext_list')}">报告设置</a></li>
+        <!-- <li class="mt5"><a href="{:U('Manage/feedbacklist_manage')}">应用反馈</a></li> -->
+      </ul>
+    </div>
+    <div class="ws10 fr bdl9 pl30 sright">
+      <div class="ofh"><span class="fl fs16 fwb pt5">修改PDF拓展信息</span><a class="fr bc3box pt5 pb5 pl20 pr20 fs14 tac br3" href="__MODULE__/Manage/pdfext_list">返回</a></div>
+      <form class="form" action="__SELF__" method="post" enctype="multipart/form-data" >
+      <table cellspacing="0" cellpadding="5" class="mt20">
+        <tr>
+          <td class="tar">头部上方内容</td>
+          <td class="pl10"><input class="ws12 wzh_input p5 bcn bd9 fcf" type="text" name="headerup" value="{$pdfextinfo.headerup}"/></td>
+          <td class="pl10" id="headcontenttip"></td>
+        </tr>
+        <tr>
+          <td class="tar">头部下方内容</td>
+          <td class="pl10"><input class="ws12 wzh_input p5 bcn bd9 fcf" type="text" name="headerdown" value="{$pdfextinfo.headerdown}"/></td>
+          <td class="pl10" id="footcontenttip"></td>
+        </tr>
+        <tr>
+          <td class="tar">头部图片</td>
+           <td class="pl10"><input  type="file" name="headimg" /></td>
+          <td><img src="__ROOT__/{$pdfextinfo.headimg}" width="30px" /></td>
+        </tr>
+        <tr>
+          <td class="tar">背景图片</td>
+          <td class="pl10"><input  type="file" name="background" /></td>
+          <td><img src="__ROOT__/{$pdfextinfo.background}" width="30px" /></td>
+        </tr>
+        <tr>
+          <td class="tar">验证码</td>
+          <td class="pl10"><input class="ws12 wzh_input p5 bcn bd9 fcf" type="text" id="captcha" /></td>
+          <td><img src="__MODULE__/Layout/captcha" onclick="javascript:this.src = this.src +'?' + Math.random();" id='clickpic' style="width: 60%;" /></td>
+          <td class="pl10"><span id="captchainfo" style="color:red;"></span></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td class="pl10 pt20"><input type="button" class="ws12 bc3box pt8 pb8 fs14 fcf tac db br3 bdn" value="更新资料" onclick="pdfextset()" /></td>
+          <td></td>
+        </tr>
+      </table>
+      </form>
+    </div>
+  </div>
+</div>
+</body>
+<script src="__PUBLIC__/js/pdfext.js"></script>
+</html>

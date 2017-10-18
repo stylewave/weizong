@@ -1,0 +1,83 @@
+<include file="Layout/header" />
+<!-- 	<body class="mainPage">
+<div class="header">
+  <div class="layout ws10 mac ofh">
+  	<div class="fl logoBox"><h3 class="brand-text">移动应用安全检测平台</h3></div>
+    <ul class="fr menuBox">
+    	<li class="jiance"><a href="{:U('Detection/center_detection')}"><i class="fa fa-dashboard"></i> 检测</a></li>
+      <li class="sel yonghu"><a href="{:U('Personal/info_personal')}"><i class="fa fa-user"></i> 个人</a></a></li>
+      <li class="liebiao"><a href="{:U('Detection/list_detection')}"><i class="fa fa-file-text"></i> 列表</a></li>
+      <if condition="$_SESSION['power'] eq 'all'">
+        <li class="shezhi"><a href="{:U('Manage/info_manage')}"><i class="fa fa-gear"></i> 设置</a></li>
+      </if>
+      <li class="tuichu"><a href="{:U('User/logout_user')}"><i class="fa fa-power-off"></i> 退出</a></li>
+    </ul>
+  </div>
+</div> -->
+<div class="layout ws10 mac content afcf yonghuBox">
+  <div class="mt30 bc2box br10 p30 ofh">
+    <div class="ws2 fl sleft">
+      <ul class="fs14 lh30 mr30 tac">
+        <li class="bc1box br3"><a href="{:U('Personal/info_personal')}">账户信息</a></li>
+        <if condition="$_SESSION['power']['usertypeid'] eq '1' OR $_SESSION['power'] eq 'all'">
+          <li class="mt5"><a href="{:U('Personal/editinfo_personal')}">修改信息</a></li>
+        </if>
+        <li class="mt5"><a href="{:U('Personal/editpass_personal')}">修改密码</a></li>
+        <!-- <li class="mt5"><a href="{:U('Personal/feedbacklist_personal')}">查看反馈</a></li> -->
+      </ul>
+    </div>
+    <div class="ws10 fr bdl9 pl30 pr30 sright">
+        <div class="fs16 fwb">账户资料</div>
+        <table class="table table-hover mt20">
+          <tr>
+            <td>登录名</td>
+            <td class="pl10">{$info.loginemail}</td>
+          </tr>
+          <tr>
+            <td>职业</td>
+            <td class="pl10">{$info.job}</td>
+          </tr>
+          <tr>
+            <td>姓名</td>
+            <td class="pl10">{$info.realname}</td>
+          </tr>
+          <tr>
+            <td>联系电话</td>
+            <td class="pl10">{$info.phone}</td>
+          </tr>
+          <tr>
+            <td>联系地址</td>
+            <td class="pl10">{$info.address}</td>
+          </tr>
+          <tr>
+            <td>开发者类型</td>
+            <td class="pl10">
+            <if condition="$info.dvrtype eq 1">
+            企业
+            <else />
+            个人
+            </if>
+            </td>
+          </tr>
+          <tr>
+            <td>注册时间</td>
+            <td class="pl10">{$info.regtime}</td>
+          </tr>
+          <tr>
+            <td>检测数量</td>
+            <td class="pl10">{$info.count}</td>
+          </tr>
+          <tr>
+            <td>最近登录</td>
+            <td class="pl10">{$info.lasttime}</td>
+          </tr>
+          <tr>
+            <td>最近登录IP</td>
+            <td class="pl10">{$info.ip}</td>
+          </tr>
+        </table>
+    </div>
+  </div>
+</div>
+<script type="text/javascript" src="__PUBLIC__/js/infopersonal.js"></script>
+<include file="Layout/footer" />

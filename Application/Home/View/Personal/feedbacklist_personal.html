@@ -1,0 +1,59 @@
+<include file="Layout/header" />
+<head>
+  <link rel="stylesheet" type="text/css" href="__PUBLIC__/plugins/timepicker/css/jquery-ui.css" />
+  <script type="text/javascript" src="__PUBLIC__/plugins/timepicker/js/jquery-ui.js"></script>
+  <script type="text/javascript" src="__PUBLIC__/plugins/timepicker/js/jquery-ui-slide.min.js"></script>
+  <script type="text/javascript" src="__PUBLIC__/plugins/timepicker/js/jquery-ui-timepicker-addon.js"></script>
+</head>
+<div class="layout ws10 mac content afcf settingBox">
+  <div class="mt30 bc2box br10 p30 ofh">
+    <div class="ws2 fl sleft">
+      <ul class="fs14 lh30 mr30 tac">
+        <li class="mt5"><a href="{:U('Personal/info_personal')}">账户信息</a></li>
+        <if condition="$_SESSION['power']['usertypeid'] eq '1' OR $_SESSION['power'] eq 'all'">
+          <li class="mt5"><a href="{:U('Personal/editinfo_personal')}">修改信息</a></li>
+        </if>
+        <li class="mt5"><a href="{:U('Personal/editpass_personal')}">修改密码</a></li>
+        <!-- <li class="bc1box br3"><a href="{:U('Personal/feedbacklist_personal')}">查看反馈</a></li> -->
+      </ul>
+    </div>
+      <div class="ws10 fr bdl9 pl30 sright">
+        <table width="100%" cellspacing="0" cellpadding="0" class="tableBlue table">
+            <tr>
+              <th class="nwp">序号</th>
+              <th class="nwp tal">应用名称</th>
+              <th class="nwp tal">提交时间</th>
+              <th class="nwp tal">检测项</th>
+              <th class="bbh nwp tal">原先结果</th>
+              <th class="md5 nwp tal">修改结果</th>
+              <th class="time nwp tal">处理状态</th>
+              <th class="nwp tal">操作</th>
+            </tr>
+            <volist name='feedbacklist' id="vo"> 
+            <tr>
+              <td class="tac fs16">{$i+$star}</td>
+              <td class="fs16">{$vo.realname}</td>
+              <td class="fs16">{$vo.subtime|date="Y-m-d H:i:s",###}</td>
+              <td class="fs16">{$vo.zhtestname}</td>
+              <td class="bbh fs16">{$vo.oldresultname}</td>
+              <td class="md5 fs16">{$vo.newresultname}</td>
+              <td class="time fs16">{$vo.feedbackstatus}</td>
+              <td>
+              <a href="{:U('Report/basedetial_report',array('appid'=>$vo['appid']))}">查看应用</a> | 
+              <if condition="$vo['status'] eq '1'">
+              <a url="{:U('Personal/feedbackcancel_personal',array('feedbackid'=>$vo['id']))}" onclick="feedbackcancel($(this).attr('url'))" >撤销申请</a> | 
+              <else />
+              <a href="{:U('Personal/feedbackresult_personal',array('feedbackid'=>$vo['id']))}">查看处理</a>
+              </if>
+              </td>
+            </tr>
+            </volist>
+        </table>
+        <div align="center">
+          {$pageshow}
+        </div>
+      </div>
+  </div>
+</div>
+<script type="text/javascript" src="__PUBLIC__/js/listdetection.js"></script>
+<include file="Layout/footer" />

@@ -1,0 +1,43 @@
+<include file="Layout:header" />
+
+<body class="loginPage">
+<div class="layout ws10 mac">
+  <div class="main-box">
+    <div class="head-logo">
+      <div class="logo-wrapper">
+     <img src="__PUBLIC__/img/jingtai_logo.png" class="img-responsive" />
+<!--   <img src="__PUBLIC__/img/jingtai_logo.png"/> -->
+      </div>
+    </div>
+
+    <form class="formBox login-box" action="__SELF__" method="POST" id="login-form" >
+      <!-- <div class="fs24 fcf">云终端应用检测系统</div> -->
+        
+      <div class="text mt30">
+        <input class="ws12 wzh_input p5 bcn bd9 fcf" maxlength="32" type="text" placeholder="账号" name="email" />
+      </div>
+      <div class="mt15">
+        <input class="ws12 wzh_input p5 bcn bd9 fcf" maxlength="32" type="password" placeholder="密码" name="pwd" />
+      </div>
+      <div class="mt15 ofh"> <img class="fr mt5 captcha" src="__MODULE__/Layout/captcha" onClick="javascript:this.src = this.src +'?' + Math.random();" style="width:90px;height:30px;" id='clickpic'/>
+        <input class="ws6 wzh_input p5 bcn bd9 fcf" maxlength="16" type="text" placeholder="验证码" name="captcha" />
+      </div>
+      <font id="tip" color="red">&nbsp;</font>
+      <table class="mt20 lh24" width="100%" cellspacing="0" cellpadding="0">
+        <tr>
+          <td class="pr5"><input class="fs14 br3 fcf btn-border-blue tac p5 ws12 bd9" type="submit" value="登录" onClick="return false"/></td>
+         
+          <!-- <td class="pl5"><input class="fs14 br3 fcf bc0 tac p5 ws12 bd9" type="button" value="注册" onclick="location.href=$(this).attr('url')" url="{:U('User/register_user')}" /></td> -->
+        </tr>
+        <tr>
+
+
+        </tr>
+      </table>
+    </form>
+  </div>
+</div>
+
+<script type="text/javascript" src="__PUBLIC__/js/userLogin.js"></script>
+
+<include file="Layout/uifooter" />

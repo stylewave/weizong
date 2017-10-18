@@ -1,0 +1,159 @@
+<include file="Layout/header"/>
+<div class="layout ws10 mac content afcf dttcenBox dttdtlBox">
+    <div class="mt30 bc2box br10 ofh">
+        <div class="ws4 fl">
+            <div class="item p30">
+                <table width="100%" cellspacing="0" cellpadding="0">
+                    <tr>
+
+
+                    <td>项目名称：{$info.name}</td>
+                    <!--<td align="right" class="score fw2">{$info.secscore|ranking=###}</td>-->
+                    <td valign="bottom" class="fs16"><span class="db pl5 pb5"></span></td>
+                    </tr>
+                </table>
+        <div class="mt30 fs28 fw2">{$info.realname}</div>
+        <div class="mt30 nwp" >
+          
+        	<table class="table">
+        		<tr>
+        			<td>软件版本</td>
+        			<td>{$info.version}</td>
+        		</tr>
+        		<tr>
+        			<td>编译环境</td>
+        			<td>{$info.env}</td>
+        		</tr>
+        		<tr>
+        			<td>压缩包MD5</td>
+        			<td>{$info.md5}</td>
+        		</tr>
+        		<tr>
+        			<td>代码语言</td>
+        			<td>{$info.lang}</td>
+        		</tr>
+                        <tr>
+        			<td>项目大小</td>
+        			<td>{$info.size}</td>
+        		</tr>
+                         <tr>
+                                <td>风险总类</td>
+                                <td>{$listcount|count}</td>
+                        </tr>
+        		
+                         <tr>
+                                            <td>总风险数</td>
+		        			<td>{$loophole.count}</td>
+		        		</tr>
+                                        <tr>
+		        			<td>严重风险数</td>
+		        			<td>{$loophole.cricount}</td>
+		        		</tr>
+		        		<tr>
+		        			<td>高危风险数</td>
+		        			<td>{$loophole.highcount}</td>
+		        		</tr>
+		        		<tr>
+		        			<td>中危风险数</td>
+		        			<td>{$loophole.midcount}</td>
+		        		</tr>
+                                        <tr>
+		        			<td>低危风险数</td>
+		        			<td>{$loophole.lowcount}</td>
+		        		</tr>
+                                        <tr>
+        			<td>提交时间</td>
+        			<td>{$info.subtime}</td>
+        		</tr>
+        	</table>
+        
+<!--              <font class="fs16">软件版本:{$info.version}<font><br/>
+              <font class="fs16">编译环境:{$info.env}</font><br/>
+              <font class="fs16">压缩包MD5:{$info.md5}</font><br/>
+              <font class="fs16">代码语言:{$info.lang}</font><br/>
+              <font class="fs16">提交时间:{$info.subtime}</font>-->
+  </div>
+        <div class="mt40 ofh" style="margin-top:20px;">
+        <a class="fl bc3box p10 fs14 ws4 tac db br3" href="{:U('Detection/center_detection')}">返回</a>
+        <if condition="$_SESSION['power']['userpayid'] egt 2 OR $_SESSION['power'] eq 'all'">
+        <a class="fr bc3box p10 fs14 ws4 tac db br3" href="{:U('Report/basedetial_report',array('appid'=>$info['appid']))}" >检测详情</a>
+        <else />
+            <a class="fr bc3box p10 fs14 ws4 tac db br3" onclick="regTipTestDetial()" />检测详情</a>
+        </if>
+
+
+         
+<!--        <div class="mt40 ofh" style="margin-top:50%;">
+        <a class="fl bc3box p10 fs14 ws4 tac db br3" href="{:U('Detection/center_detection')}">返回</a>
+        <if condition="$_SESSION['power']['userpayid'] egt 2 OR $_SESSION['power'] eq 'all'">
+        <a class="fr bc3box p10 fs14 ws4 tac db br3" href="{:U('Report/basedetial_report',array('appid'=>$info['appid']))}" >检测详情</a>
+        <else />
+            <a class="fr bc3box p10 fs14 ws4 tac db br3" onclick="regTipTestDetial()" />检测详情</a>
+        </if>-->
+        </div>
+      </div>
+    </div>
+    <div class="ws8 fr pt30 pb30 charts">
+      <div class="ml40 pl40 pr30 bdl9 show" style="overflow: hidden;">
+     
+        <div class="fl wp50" id="scorepic" style="height:350px;">
+           sss
+
+        </div>
+        <div class="fl wp50" id="locate" style="height:350px;">
+           ss
+
+        </div>
+        <div class="fl wp100" id="locatebar" style="height:400px;">
+           ss
+        </div>
+
+    </div>
+  </div>
+</div>
+<!--{$info['appid']|var_export}-->
+<script src="__PUBLIC__/js/echarts.min.js"></script>
+<script src="__PUBLIC__/js/loaddata.js"></script>
+<script type="text/javascript">
+  $.getJSON("{:U('Report/appstatistics',array('appid'=>$info['appid']))}",function(data){
+   option1.series[0].data[0].value=data.score;
+   myChart1.setOption(option4);
+  //console.log(data);
+ //console.log(data.bar.xaxis);
+   for(var i=0;i<data.pie.length;i++){
+     option2.series[0].data[i].value=data.pie[i];
+   }
+   
+   locate.setOption(option2);   
+  
+  for(var y=0;y<data.round.length;y++){
+     option4.series[0].data[y] = data.round[y];
+    // option4.legend[0].data[y] = data.round[y].name[y];
+   }
+   for(var x=0;x<data.round.length;x++){
+    // option4.series[0].data[y] = data.round[y];
+    option4.legend.data[x] = data.round[x].name;
+   }
+   option4.series[0].name= "风险种类";
+   console.log(option4,"123");
+   scorepic.setOption(option4);
+//    option4.legend[0].data=data.round.name;
+//    option4.series[0].data[0].value=data.round;
+    
+//    scorepic.setOption(option4);
+  // console.log(data.bar.xaxis);
+    option5.xAxis[0].data=data.bar.xaxis;
+   option5.series[0].data=data.bar.cri;
+   option5.series[1].data=data.bar.height;
+   option5.series[2].data=data.bar.mid;
+   option5.series[3].data=data.bar.low;
+ 
+    locatebar.setOption(option5);
+  
+    
+}); 
+   
+</script>
+
+
+<include file="Layout/footer"/>

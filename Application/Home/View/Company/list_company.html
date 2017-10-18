@@ -1,0 +1,38 @@
+<include file="Layout/header" />
+
+<if condition="$_SESSION['userid'] lt 1000">
+<div class="layout ws10 mac content afcf settingBox">
+  <div class="mt30 bc2box br10 p30 ofh">
+    <div class="ws2 fl sleft">
+      <ul class="fs14 lh30 mr30 tac">
+        <li class="mt5"><a href="{:U('Manage/info_manage')}">账户管理</a></li>
+        <li class="mt5"><a href="{:U('Vocationtype/list_vocationtype')}">应用前缀</a></li>
+        <li class="bc1box br3"><a href="{:U('Company/list_company')}">部门名称</a></li>
+        <li class="mt5"><a href="{:U('Manage/log_manage')}">日志管理</a></li>
+        <li class="mt5"><a href="{:U('Manage/pdfext_list')}">报告设置</a></li>
+        <!-- <li class="mt5"><a href="{:U('Manage/feedbacklist_manage')}">应用反馈</a></li> -->
+      </ul>
+    </div>
+    <div class="ws10 fr bdl9 pl30 sright">
+      <div class="tar"><a class="bc3box pt5 pb5 pl20 pr20 fs14 tac dib br3" href="{:U('Company/add_company')}">添加部门</a></div>
+      <table width="100%" cellspacing="0" cellpadding="0" class="table tableBlue mt10">
+          <tr>
+            <th class="nwp">部门名称</th>
+            <th class="nwp">操作</th>
+          </tr>
+		  <volist name="companyList" id="vo">
+        <if condition="$vo['zhcompanytype'] neq '无'">
+          <tr>
+            <td>{$vo.zhcompanytype}</td>
+            <td><a class="ml5" href="{:U('Company/update_company',array('companyid'=>$vo['id']))}">修改信息</a> | <a class="ml5" url="{:U('Company/del_company',array('companyid'=>$vo['id']))}" onclick="delRecord($(this).attr('url'));">删除部门</a></td>
+          </tr>
+        </if>
+      </volist>
+      </table>
+      <div style="text-align: center;">{$pageshow}</div>
+    </div>
+  </div>
+</div>
+</if>
+<script type="text/javascript" src="__PUBLIC__/js/companytypelist.js"></script>
+<include file="Layout/footer" />

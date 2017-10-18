@@ -1,0 +1,157 @@
+<include file="Layout/header" />
+<head>
+	<title>检测应用列表</title>
+  <link rel="stylesheet" type="text/css" href="__PUBLIC__/plugins/timepicker/css/jquery-ui.css" />
+  <script type="text/javascript" src="__PUBLIC__/plugins/timepicker/js/jquery-ui.js"></script>
+  <script type="text/javascript" src="__PUBLIC__/plugins/timepicker/js/jquery-ui-slide.min.js"></script>
+  <script type="text/javascript" src="__PUBLIC__/plugins/timepicker/js/jquery-ui-timepicker-addon.js"></script>
+</head>
+
+<div class="layout ws10 mac content dttcenBox dttlistBox">
+  <div class="mt30 bc2box br10 p30 ofh">
+  <if condition="$_SESSION['power']['usertypeid'] eq 3">
+    <div><font style="color:#E2C4A9;" size="5">{$_SESSION['power']['zhvocationtype']} 行业</font></div><br/>
+  </if>
+  <form method="get" action="{:U('Detection/searchapp_detection')}">
+      <input class="wzh_input" type="text" name="appname" placeholder="应用名" />
+     <input class="wzh_input" type="text" name="version" placeholder="软件版本" />
+      <input class="wzh_input" type="text" name="md5" placeholder="md5" />
+      <!-- <input class="wzh_input" type="text" name="starttime" placeholder="开始时间" /> -->
+      <!-- <input class="wzh_input" type="text" name="endtime" placeholder="结束时间" /> -->
+      
+      <!-- <input class="wzh_input" type="text" name="level" placeholder="安全等级" /> -->
+      <if condition="$_SESSION['power']['usertypeid'] eq 3">
+        <input class="wzh_input" type="hidden" name="vocation" value="{$_SESSION['power']['vocatypeid']}" />
+      </if>
+      <select name="condition" class="pl10 bcn fcwhite oh" style="border-radius: 3px;">
+        <option value="appid">默认</option>
+        <option value="time">检测时间</option>
+        <option value="version">版本号</option>
+      </select>
+      <select name="sort" class="pl10 bcn fcwhite oh" style="border-radius: 3px;">
+      	<option value="DESC">降序</option>
+        <option value="ASC">升序</option>
+      </select>
+      <input type="submit" value="搜索" class="btn btn-default"/>
+    </form><br/>
+<!--      <a href="__ROOT__/reportpdf.pdf">下载pdf</a>-->
+    <table width="100%" cellspacing="0" cellpadding="0" class="tableBlue table">
+        <tr>
+          <th class="nwp">序号</th>
+          <th class="nwp tal">项目名称</th>
+         
+          <th class="bbh nwp tal">软件版本</th>
+          <th class="md5 nwp tal">MD5</th>
+           <th class="name nwp tal">提交用户</th>
+          <th class="time nwp tal">提交时间</th>
+           <th class="nwp tal">检测状态</th>
+          <th class="nwp tal">操作</th>
+        </tr>
+        <volist name='applist' id="vo"> 
+        <tr>
+          <td class="tac fs16">{$i+$star}</td>
+          <td class="fs16">{$vo.name}</td>
+         
+          <td class="bbh fs16">{$vo.version}</td>
+          <td class="md5 fs16">{$vo.md5}</td>
+          <td class="name fs16"><if condition="$vo['adminlogin'][0]['loginemail'] neq '' ">{$vo['adminlogin'][0]['loginemail']}<else />{$vo['userlogin'][0]['loginemail']}</if></td>
+          <td class="time fs16">{$vo.subtime}</td>
+           <td class="fs16">
+          <if condition="$vo['status'] eq 1">
+            检测完成
+          <elseif condition="$vo['status'] eq 0"/>
+          检测中
+          <else />
+          检测失败
+          </if>
+          </td>
+          <td>
+      <?php if($vo['status'] == 1): ?>
+     
+          <a class="btn btn-default" href="{:U('Report/base_report',array('appid'=>$vo['appid']))}">查看</a>
+           <!--<a class="btn btn-default" href="{:U('Word/repdfs',array('appid'=>$vo['appid']))}"><span onclick="checkModal('{$vo.appid}')">word</span></a>-->
+<!--          <a class="ml5 btn btn-success" ><span onclick="checkModal('{$vo.appid}')">下载报告</span></a>-->
+<!--            <a class="btn btn-default" href="{:U('Word/ww',array('appid'=>$vo['appid']))}">word</a> -->
+<!--            <a class="btn btn-default" href="{:U('Word/makePdfReportsss',array('appid'=>$vo['appid']))}">pdf</a> -->
+          <a class="ml5 btn btn-success" url="{:U('Word/makePdfReportsss',array('appid'=>$vo['appid']))}" ><span  onclick='tipDownPdf($(this).parent().attr("url"));' >下载报告</span></a>
+        	<a class="ml5 btn btn-danger" url="{:U('Manage/delApkinfo_manage',array('appid'=>$vo['appid']))}" onclick="delRecord($(this).attr('url'));">删除</a> 
+                <a class="ml5 btn btn-danger" href="{:U('Manage/delApkinfo_manage',array('appid'=>$vo['appid']))}" >删除2</a>  
+       <?php elseif($vo['status'] == 2): ?>
+          <a class="btn btn-default  disabled" href="{:U('Report/base_report',array('appid'=>$vo['appid']))}">查看</a>
+           <a class="ml5 btn btn-success disabled" ><span onclick="checkModal('{$vo.appid}')">下载报告</span></a>
+          <!--<a class="ml5 btn btn-success  disabled" url="" ><span  onclick='tipDownPdf($(this).parent().attr("url"));' >下载报告</span></a>-->
+          <a class="ml5 btn btn-danger  " url="{:U('Manage/delApkinfo_manage',array('appid'=>$vo['appid']))}" onclick="delRecord($(this).attr('url'));">删除</a> 
+       <?php elseif($vo['status'] == 0): ?>
+          <a class="btn btn-default  disabled" href="{:U('Report/base_report',array('appid'=>$vo['appid']))}">查看</a>
+           <a class="ml5 btn btn-success disabled" ><span onclick="checkModal('{$vo.appid}')">下载报告</span></a>
+          <!--<a class="ml5 btn btn-success  disabled" url="" ><span  onclick='tipDownPdf($(this).parent().attr("url"));' >下载报告</span></a>-->
+          <a class="ml5 btn btn-danger  disabled" url="{:U('Manage/delApkinfo_manage',array('appid'=>$vo['appid']))}" onclick="delRecord($(this).attr('url'));">删除</a> 
+          <?php endif; ?>
+          </td>
+        </tr>
+        </volist>
+    </table>
+    <div align="center">
+      {$pageshow}
+    </div>
+  </div>
+    
+            <div class="modal fade" id="report" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                  <form action="{:U('Word/report')}" method='post'>
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">下载报告</h4>
+                        </div>
+                         <div class="modal-body">
+                             <div class="row">
+                                 <div class="col-sm-3"></div>
+                                <div class="col-sm-9">
+                                     <input type="hidden" name="id" >
+                                      <input type="hidden" name="appid" >
+                                    <p style="font-size:32px;">请选择报告类型</p>
+                                    <p style="font-size:28px;">	
+                                        <input type="radio"  name="lei"   value="word" checked/>word &nbsp;&nbsp; &nbsp;     
+                                        <input type="radio"  name="lei"   value="pdf"/>pdf</p> 
+                                </div>
+
+                            </div>
+                          <div class="modal-body">    
+                           <div class="row">
+                                 <div class="col-sm-3"></div>
+                                         <div class="col-sm-9">
+                                             <p style="font-size:16px;">风险类别：
+                                                 <select name="risk">
+                                                     <option value="">请选择风险类别</option>
+                                                       <option value="all">全部</option>
+                                                       <option value="critical">严重</option>
+                                                       <option value="high">高危</option>
+                                                       <option value="medium">中危</option>
+                                                       <option value="low">低危</option>
+                                           </select>
+                                           </p>
+                                         </div>
+                           </div>
+                          </div>
+                           <div class="modal-footer">
+                            <input class="btn btn-primary" type="submit" value="确定下载">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+
+                        </div>
+
+                         </div></form>
+                </div>
+            </div>
+    
+</div>
+<script type="text/javascript" src="__PUBLIC__/js/listdetection.js">
+    
+</script>  <script type="text/javascript">
+    function checkModal(appid) {
+       // alert(url);
+        $('input[name=appid]').val(appid);
+        $("#report").modal('show');
+   }
+</script>
+<include file="Layout/footer" />

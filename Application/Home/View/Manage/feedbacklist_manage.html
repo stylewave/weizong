@@ -1,0 +1,74 @@
+<include file="Layout/header" />
+<if condition="count($userlist) == 0">
+<span id="p" style="display: none;"><?php echo $_GET["p"]; php?></span>
+<script>
+  var p = $('#p').html();
+  if( p == 0){
+    p=1; 
+    window.location.href="__URL__/feedbacklist_manage/p/"+p+'.html'; 
+  }
+</script>
+</if>
+
+<div class="layout ws10 mac content afcf settingBox">
+  <div class="mt30 bc2box br10 p30 ofh">
+    <div class="ws2 fl sleft">
+      <ul class="fs14 lh30 mr30 tac">
+        <li class="mt5"><a href="{:U('Manage/info_manage')}">账户管理</a></li>
+        <li class="mt5"><a href="{:U('Vocationtype/list_vocationtype')}">应用类型</a></li>
+        <li class="mt5"><a href="{:U('Company/list_company')}">部门名称</a></li>
+        <li class="mt5"><a href="{:U('Manage/log_manage')}">日志管理</a></li>
+        <li class="mt5"><a href="{:U('Manage/pdfext_list')}">报告设置</a></li>
+        <!-- <li class="bc1box br3"><a href="{:U('Manage/feedbacklist_manage')}">应用反馈</a></li> -->
+      </ul>
+    </div>
+    <div class="ws10 fr bdl9 pl30 sright">
+      <!-- <div class="tar"><a class="bc3box pt5 pb5 pl20 pr20 fs14 tac dib br3" href="{:U('Manage/adduser_manage')}">创建账户</a></div> -->
+      <table width="100%" cellspacing="0" cellpadding="0" class="table tableBlue mt10">
+          <tr>
+            <th class="nwp">序号</th>
+            <th class="nwp tal">应用名称</th>
+            <th class="nwp tal">处理时间</th>
+            <th class="nwp tal">检测项</th>
+            <th class="bbh nwp tal">原先结果</th>
+            <th class="md5 nwp tal">修改结果</th>
+            <th class="time nwp tal">处理状态</th>
+            <th class="nwp tal">反馈用户名</th>
+            <th class="nwp tal">操作</th>
+          </tr>
+          <volist name="feedbacklist" id="vo">
+          <tr>
+            <td class="tac fs16">{$i+$star}</td>
+            <td class="fs16">{$vo.realname}</td>
+            <td class="fs16"><if condition="$vo['processtime'] eq null"><else/>{$vo.processtime|date="Y-m-d H:i:s",###}</if></td>
+            <td class="fs16">{$vo.zhtestname}</td>
+            <td class="bbh fs16">{$vo.oldresultname}</td>
+            <td class="md5 fs16">{$vo.newresultname}</td>
+            <td class="time fs16">{$vo.feedbackstatus}</td>
+            <td class="fs16">{$vo.loginemail}{$vo.aloginemail}</td>
+            <td class="btn">
+            <a href="{:U('Report/basedetial_report',array('appid'=>$vo['appid']))}"><font color="#fff;">查看应用</font></a>
+            <a href="{:U('Manage/feedbackdetial_manage',array('feedbackid'=>$vo['id']))}"><font color="#fff;">查看详情</font></a>
+            <if condition="$vo['status'] eq '1'">
+            <a href="{:U('Manage/feedbackagree_manage',array('feedbackid'=>$vo['id'],'appid'=>$vo['appid'],'testname'=>$vo['testname'],'newresult'=>$vo['newresult']))}"><font color="#fff;">同意请求</font></a>
+            <a href="{:U('Manage/feedbackreject_manage',array('feedbackid'=>$vo['id']))}"><font color="#fff;">驳回请求</font></a>
+            </if>
+            <a href="{:U('Manage/feedbackdel_manage',array('feedbackid'=>$vo['id']))}"><font color="#fff;">删除申请</font></a>
+            </td>
+           <!--  <td class="btn">
+              <a href="{:U('Personal/detial_personal',array('userid'=>$vo['userid']))}">详细</a>
+              <a class="ml5" href="{:U('Personal/modifypass_personal',array('uid'=>$vo['userid']))}">修改密码</a>
+              <a class="ml5" href="{:U('Personal/modifyinfo_personal',array('uid'=>$vo['userid']))}">修改信息</a>
+              <a class="ml5" href="{:U('Personal/modifypower_personal',array('uid'=>$vo['userid']))}">修改权限</a>
+              <a class="ml5" url="{:U('Manage/deluser_manage',array('uid'=>$vo['userid']))}" onclick="delRecord($(this).attr('url'));">删除</a></td> -->
+          </tr>
+         </volist>
+      </table>
+      <div align="center" class="fenye">
+      {$pageshow}
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript" src="__PUBLIC__/js/infomanage.js"></script>
+<include file="Layout/footer" />

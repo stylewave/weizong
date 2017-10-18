@@ -1,0 +1,91 @@
+<include file="Layout/header" />
+
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/plugins/timepicker/css/jquery-ui.css" />
+<script type="text/javascript" src="__PUBLIC__/plugins/timepicker/js/jquery-ui.js"></script>
+<script type="text/javascript" src="__PUBLIC__/plugins/timepicker/js/jquery-ui-slide.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/plugins/timepicker/js/jquery-ui-timepicker-addon.js"></script>
+
+
+<div class="layout ws10 mac content afcf settingBox setlogBox">
+  <div class="mt30 row bc2box br10 p30 ofh">
+    <div class="col-sm-2">
+      <ul class="fs14 lh30 mr30 tac">
+        <li><a href="{:U('Manage/info_manage')}">账户管理</a></li>
+        <li class="mt5"><a href="{:U('Vocationtype/list_vocationtype')}">应用前缀</a></li>
+        <li class="mt5"><a href="{:U('Company/list_company')}">部门名称</a></li>
+        <li class="mt5"><a href="{:U('Manage/log_manage')}">日志管理</a></li>
+        <li class="bc1box br3 mt5"><a href="{:U('Manage/pdfext_list')}">报告设置</a></li>
+        <!-- <li class="mt5"><a href="{:U('Manage/feedbacklist_manage')}">应用反馈</a></li> -->
+      </ul>
+    </div>
+    
+    <div class="col-sm-10">
+    	<div class="row">
+    	
+	    <div class="pull-left">
+	      <form action="__MODULE__/Manage/pdfext_expandswitch" method="post">
+	        <div class="fl">
+	        	<label class="wzh_radio" for="expandswitch1">
+	        		<input id="expandswitch1" class="wzh_check" type="radio" name="expandswitch" width="25px" value="1" <if condition="$showWartermark['textpic'] eq 1">checked</if> >
+	        		展示水印等内容
+	        		<span class="wzh_icon_checked"></span>
+	        	</label>
+	        	<label class="wzh_radio" for="expandswitch2">
+	        		<input id="expandswitch2" class="wzh_check" type="radio" name="expandswitch" value="0" <if condition="$showWartermark['textpic'] eq 0">checked="checked"</if> >
+	        		隐藏水印等内容
+	        		<span class="wzh_icon_checked"></span>
+	        	</label>
+	          <!--<input type="radio" name="expandswitch" width="25px" value="1" <if condition="$showWartermark['textpic'] eq 1">checked="checked"</if> ><font size="5">展示水印等内容</font>
+	          <input type="radio" name="expandswitch" value="0" <if condition="$showWartermark['textpic'] eq 0">checked="checked"</if> ><font size="5">隐藏水印等内容</font>-->
+	        </div>
+	        <input class="btn btn-border-blue" type="submit" value="确定"/>
+	      </form>
+	    </div>
+	    
+	    <div class="pull-right">
+    			<a class="btn btn-border-blue" href="__MODULE__/Manage/pdfext_add">增加PDF拓展</a>
+    		</div>
+    
+	    <div class="col-sm-12">
+	      <table width="83%" cellspacing="0" cellpadding="0" class="table tableBlue fs14" id="logShow" style="margin-top: 20px;">
+	          <tr id="logHead">
+	            <th class="tal nwp">选择状态</th>
+	            <th class="tal nwp">页眉(上)内容</th>
+	            <th class="tal nwp">页眉(下)内容</th>
+	            <th class="tal nwp">背景图片</th>
+	            <th class="tal nwp">头部图片</th>
+	            <th class='tal nwp' style="text-align: center;">操作</th>
+	          </tr>
+	          <tbody class="ajax" id="logDetialContent">
+	            <volist name="pdfextlist" id="v1">
+	            <tr>
+	              <td><if condition="$v1['status'] eq 1"><img src="__ROOT__/Public/css/choice.png" width="20px"/><else /><img src="__ROOT__/Public/css/nochoice.png" width="20px"/></if></td>
+	              <td class="time">{$v1.headerup}</td>
+	              <td class="time">{$v1.headerdown}</td>
+	              <td>
+	              <if condition="$v1['background'] neq '不存在'">
+	                <img src="__ROOT__/{$v1.background}" width="20px" />
+	              <else />
+	                {$v1.background}
+	              </if>
+	              </td>
+	              <td>
+	              <if condition="$v1['headimg'] neq '不存在'">
+	                <img src="__ROOT__/{$v1.headimg}" width="20px" />
+	              <else />
+	                {$v1.headimg}
+	              </if>
+	              </td>
+	              <td style="text-align: center;"><a href="__MODULE__/Manage/pdfext_setcontent/pdfextid/{$v1['id']}">使用此样式</a>&nbsp;&nbsp;&nbsp;<a href="__MODULE__/Manage/pdfext_set/pdfextid/{$v1['id']}">修改</a> | <a href="__MODULE__/Manage/pdfext_del/pdfextid/{$v1[id]}">删除</a></td>
+	            </tr>
+	            </volist>
+	          </tbody>
+	      </table>
+	      <div style="text-align: center;">{$pageshow}</div>
+	      </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript" src="__PUBLIC__/js/pdfextlist.js"></script>
+<include file="Layout/footer" />

@@ -1,0 +1,46 @@
+<!-- <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="icon" href="__PUBLIC__/img/fav_icon_32.ico" />
+<link type="text/css" rel="stylesheet" href="__PUBLIC__/css/style.css" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/font-awesome.css"/>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/bootstrap.css"/>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/dropzone/basic.min.css"/>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/dropzone/dropzone.min.css"/>
+
+<!--[if !IE]> -->
+<!-- <script src="__PUBLIC__/js/jquery-2.1.4.min.js"></script> -->
+<![endif]-->
+<!--  IE8只能支持jQuery1.9 -->
+<!--[if IE]> -->
+<script src="__PUBLIC__/js/jquery-1.9.1.min.js"></script>
+<!-- <![endif]-->
+<script src="__PUBLIC__/js/md5.js"></script>
+<script type="text/javascript" src='__PUBLIC__/js/swfupload/swfupload.js'></script>
+
+<script type="text/javascript" src='__PUBLIC__/js/jquery.swfupload.js'></script>
+<script type="text/javascript" src="__PUBLIC__/js/script.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/RegExp.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/bootstrap.min.js"></script>
+	<title>微众源代码安全检测系统</title>
+</head>
+
+<?php if(CONTROLLER_NAME !='User'): ?>
+<body class="mainPage">
+	<div class="header">
+	  <div class="layout ws10 mac ofh">
+	    <div class="fl logoBox"><img src="__PUBLIC__/img/jingtai_logo.png"/></div>
+	    <ul class="fr menuBox">
+	      	<li <if condition="(CONTROLLER_NAME eq 'Detection' AND (ACTION_NAME neq 'list_detection') AND (ACTION_NAME neq 'searchapp_detection')) OR (CONTROLLER_NAME eq 'Report')">class="sel jiance"<else/>class="jiance"</if> ><a href="{:U('Detection/center_detection')}"><i class="fa fa-dashboard"></i> 检测</a></li>
+	        <li <if condition="(CONTROLLER_NAME eq 'Detection') AND (ACTION_NAME eq 'list_detection' OR ACTION_NAME eq 'searchapp_detection')">class="sel liebiao"<else/>class="liebiao"</if> ><a href="{:U('Detection/list_detection')}"><i class="fa fa-file-text"></i> 列表</a></li>
+	        <li <if condition="(CONTROLLER_NAME eq 'Personal') AND (ACTION_NAME neq 'detial_personal') AND (ACTION_NAME neq 'modifyinfo_personal') AND (ACTION_NAME neq 'modifypass_personal') AND (ACTION_NAME neq 'modifypower_personal')">class="sel yonghu"<else/>class="yonghu"</if> ><a href="{:U('Personal/info_personal')}"><i class="fa fa-user"></i> 个人</a></a></li>
+	        <if condition="$_SESSION['power'] eq 'all'">
+	        <li <if condition="(CONTROLLER_NAME eq 'Manage') OR ((CONTROLLER_NAME eq 'Personal') AND (ACTION_NAME eq 'detial_personal') OR ((CONTROLLER_NAME eq 'Personal') AND (ACTION_NAME eq 'modifypass_personal')) OR ((CONTROLLER_NAME eq 'Personal') AND (ACTION_NAME eq 'modifyinfo_personal')) OR ((CONTROLLER_NAME eq 'Personal') AND (ACTION_NAME eq 'modifypower_personal')) OR (CONTROLLER_NAME eq 'Vocationtype') OR (CONTROLLER_NAME eq 'Company') )">class="sel shezhi"<else/>class="shezhi"</if> ><a href="{:U('Manage/info_manage')}"><i class="fa fa-gear"></i> 设置</a></li>
+	      </if>
+	      <li class="tuichu"><a href="{:U('User/logout_user')}"><i class="fa fa-power-off"></i> 退出</a></li>
+	    </ul>
+	  </div>
+	</div>
+<?php endif; ?>

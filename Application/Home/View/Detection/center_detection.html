@@ -1,0 +1,425 @@
+<include file="Layout/header"/>
+<div class="layout ws10 mac content afcf dttcenBox">
+  <div class="mt10 ws4 fl appear-block appear-from-center">
+    <div class="bc2box br10 ml15 mr15 item aitem">
+      <div class="pt30 icon tac">
+		  <if condition="($recent[0]['status'] eq 1) OR (count($recnet) eq 0)">
+		      <if condition="($_SESSION['power'] eq 'all')">
+				<?php if($manRecent["status"] != null || count($manRecent) == 0): ?>
+		      	<a class="brs5 bc1box" id="maninterval" ><img src="__PUBLIC__/img/jiance_add.png" /></a>
+				<?php endif;?>
+		      </if>
+		      <if condition="$_SESSION['power'] neq 'all'">
+			      <if condition="$uploadfunction eq 'true'">
+			          <a class="brs5 bc1box" id="interval" style="display: none;"><img src="__PUBLIC__/img/jiance_add.png" /></a>
+			      <elseif condition="$uploadfunction eq 'false'" />
+			        今天的上传次数完毕,请明天再来
+			      </if>
+			  </if>
+	     </if>
+	    <!--  <if condition="($recent[0]['status'] eq 0) AND ($_SESSION['power'] neq 'all')">
+	     	<if condition="count($recent) neq 0">
+	     	<div class="mt30 pt40 fs24 tac fw2">请等待检测完毕</div>
+	     	</if>
+		 </if> -->
+		 <!-- <if condition="count($manRecent) neq 0 AND ($manRecent['status'] eq 0) AND ($_SESSION['power'] eq 'all')">
+		 	<if condition="count($recent) eq 0 ">
+			 <font class="mt30 pt40 fs24 tac fw2" style="top:20%;padding: 20%;">请等待检测完毕</font>
+			</if>
+		 </if> -->
+      </div>
+      <if condition="$recent[0]['status'] eq 1 OR $recnet eq null">
+  		  <if condition="$uploadfunction eq 'true'">
+  			<?php if($_SESSION["power"] == 'all'): ?>
+  				<?php if($manRecent['status'] == 1 || count($manRecent) == 0): ?>
+  				<!-- <div class="mt30 pt40 fs24 tac fw2" id="manUpload" >上传检测</div> -->
+  				<?php endif;?>
+  			<?php endif;?>
+  		  </if>
+	    </if>
+    </div>
+  </div>
+  <volist name="recent" id="vo">
+  <div class="mt10 ws4 fl appear-block appear-from-center">
+    <div class="bc2box br10 ml15 mr15 p30 item sitem">
+      <table width="100%" cellspacing="0" cellpadding="0">
+        <tr>
+          <if condition="substr($vo['icon'],0,4) neq 'http'">
+            <td align="right" style=" " class="mt30 fs28 fw2">
+            {$vo.name}  </td>
+            <else/>
+             <td><img src="{$vo.icon}" width="80" /></td>
+            </if>
+          <if condition="$vo.status eq 0">
+            <td align="right" style="margin-right:20px; " class="mt30 fs28 fw2">
+            正在检测中 
+            <!--60秒后自动刷新 -->
+            <head><meta http-equiv="refresh" content="260"></head>
+            </td>
+          <elseif condition="$vo.status eq 1" />
+          <td align="right" class="score fw2 mt30">
+           检测完成
+          </td>
+          <td valign="bottom" class="fs16"><span class="db pl5 pb5"></span></td>
+          <else />
+          <td align="right" style="margin-right:20px; " class="mt30 fs28 fw2">
+            检测失败 
+          </td>
+          </if>
+        </tr>
+      </table>
+      <div class="mt10 fs28 fw2">{$vo.realname}</div>
+      <div class="mt10 nwp">版本号:{$vo.version}<br/>
+        开发语言:{$vo.lang}<br/>
+        编译环境:{$vo.env}<br/>
+         项目大小:{$vo.size}<br/>
+         MD5:{$vo.md5}<br/>
+         风险总类:{$vo.listcount|count}<br/>
+         总风险:{$vo.count}<br/>
+         严重风险:{$vo.cricount}<br/>
+         高危风险:{$vo.highcount}<br/>
+         中危风险:{$vo.midcount}<br/>
+         低危风险:{$vo.lowcount}<br/>
+
+
+        提交时间:{$vo.subtime}</div>
+        <if condition="$vo.status eq 1">
+      <div class="mt10 ofh"><a class="fl bc3box p10 fs14 ws4 tac db br3" href="{:U('Report/base_report',array('appid'=>$vo['appid']))}">查看结果</a> 
+       <?php if($_SESSION['power']['userpayid'] ==1 && $_SESSION['power'] != 'all'):?>
+          <a class="fr bc3box p10 fs14 ws4 tac db br3" onclick="regTipCentDownPdf()">下载报告</a>
+       <?php else:?>
+<!--          <a class="fr bc3box p10 fs14 ws4 tac db br3"  onclick="checkModal('{$vo.appid}')" >下载报告</a>-->
+          <a class="fr bc3box p10 fs14 ws4 tac db br3" url="{:U('Word/makePdfReportsss',array('appid'=>$vo['appid']))}" onclick="javascript:tipCentDownPdf($(this).attr('url')); ">下载报告</a>
+       <?php endif;?>
+      </div>
+      <!-- <div class="mt30 nwp"><a class="fr bc3box p10 fs14 ws4 tac db br3">提交加固</a></div> -->
+      </if>
+    </div>
+  </div>
+  </volist>
+</div>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/plugins/jqueryUpload/css/jquery.fileupload.css">
+<script type="text/javascript" src="__PUBLIC__/plugins/jqueryUpload/js/vendor/jquery.ui.widget.js"></script>
+<script type="text/javascript" src="__PUBLIC__/plugins/jqueryUpload/js/jquery.fileupload.js"></script>
+<!--enctype ="multipart/form-data"-->
+
+<script type="text/javascript">  
+
+    $(function(){  
+        //方法  
+        //$.post(url,params,function(data,status){});  
+        $("#send").click(function(){  
+         
+//            var url = "__URL__/upload_app";
+            var url = "{:U('Detection/upload_app')}";
+            console.log(url);
+             var params = {
+                           action: $('#selectVocationtype').val(),
+                           address:$('#address').val(),
+                           test:1,
+                           version:$('input[name=softversion]').val(),
+                           projectname:$('input[name=projectname]').val(),
+                           lang:$('#lang').val(),
+                           makeenv:$('#makeenv').val(),
+                           mekecommand:$('input[name=makecommand]').val(),
+                           vocation:$('#vocation').val(),
+                           git:$('input[name=git]').val(),
+                       };
+                    
+        console.log(params);
+            $.post(url,params,function(data){  
+                  console.log(data);
+                 if(data=='UPLOAD_SUCCESS'){
+                       $('#uploadmain').hide();
+                        $('#uploadtip').html('提交成功,正在检测中...');
+			//alert('恭喜提交成功.');
+			//location.href = "{:U('Detection/center_detection')}";
+                 }else if(data=='b'){
+                      $('#uploadmain').hide();
+                       $('#uploadtip').html('项目名不可为空');
+                     //  location.href = "{:U('Detection/center_detection')}";
+                
+		}else if(data=='version'){
+                      $('#uploadmain').hide();
+                       $('#uploadtip').html('软件版本不可为空');
+                     //  location.href = "{:U('Detection/center_detection')}";
+                
+		}else if(data=='lang'){
+                      $('#uploadmain').hide();
+                       $('#uploadtip').html('开发语言不可为空');
+                     //  location.href = "{:U('Detection/center_detection')}";
+                 
+		}else if(data=='env'){
+                      $('#uploadmain').hide();
+                       $('#uploadtip').html('编译环境不可为空');
+                      // location.href = "{:U('Detection/center_detection')}";
+                
+                
+		}
+                else{
+			 $('#uploadmain').hide();
+                       $('#uploadtip').html('提交失败');		
+		}
+              })	         
+        });  
+    });  
+</script>  
+
+ <form action="__URL__/upload_app" method="post" >
+<div class="dttcenAdd bc2box">
+  <div class="ws6 mac bcf br10">
+    <div class="title pl20 pr20 pt15 pb10 fs22 fc3">
+    	<span class="cp close">×</span>上传代码包</div>
+     
+    	
+      <div class="button pl20 pr20 pt15 pb40" id="swfupload-control">
+        <div id="uploadmain">
+        	<div class="row">
+            <div class="col-md-3">
+              <p>项目名:</p>
+            </div>
+             <div class="col-md-2" style='padding:0 -5px 0 0;'>
+                 <select name='vocation' id="vocation" style="float: left;width: 100%;height:30px;margin-right: 10px;font-size:14px">
+                     <option value=""  >无前缀</option>
+                  <volist name='vocationlist' id='vocation'>
+                    <option value="{$vocation['zhvocationtype']}"  >{$vocation['zhvocationtype']}</option>
+                </volist>
+              </select>
+            </div>
+                    <div class="col-md-4" style="padding-left: 5px;" >
+              <input type="text" name="projectname" placeholder="请填写项目名称(必填)" />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-3">
+              <p>软件版本:</p>
+            </div>
+            <div class="col-md-6">
+              <input type="text" name="softversion" placeholder="请填写软件版本(必填)" />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-3">
+              <p>开发语言:</p>
+            </div>
+            <div class="col-md-6">
+              <!-- <input type="text" name="lang" placeholder="请填写开发语言" /> -->
+              <select name='lang' id="lang" style="float: left;width: 100%;height:30px;margin-right: 10px;font-size:16px">
+                <volist name='langtypelist' id='lang'>
+                    <option value="{$lang['lang']}"  class="pl10 bcn" >{$lang['lang']}</option>
+                </volist>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-3">
+              <p>编译环境:</p>
+            </div>
+            <div class="col-md-6">
+              <!-- <input type="text" name="makeenv" placeholder="请选择编译环境" /> -->
+              <select name='mekeenv' id='makeenv' style="float: left;width: 100%;height:30px;margin-right: 10px;font-size:16px">
+                <volist name='envtypelist' id='envid'>
+                    <option value="{$envid['env']}"  class="pl10 bcn" >{$envid['env']}</option>
+                </volist>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-3">
+              <p>编译命令:</p>
+            </div>
+            <div class="col-md-6">
+              <input type="text" name="makecommand" placeholder="请编写编译命令(选填)" />
+            </div>
+          </div>
+            
+            <div class="rows" >
+                <div class="col-md-3">
+        			<p>上传类型：</p>
+        		</div>
+                <div class="col-md-6">
+        		
+                     <input type="radio"  name="lei"   value="no" checked
+                        onclick="document.getElementById('bao').style.display='';
+                              document.getElementById('address').style.display='none';
+                               "/>压缩包&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      <input type="radio"  name="lei"   value="yes" 
+                          onclick="document.getElementById('address').style.display='';
+                                document.getElementById('bao').style.display='none';" />地址      
+                        
+        		</div>
+             
+            </div>
+            
+             <div class="row">
+            
+          </div>
+            
+           <div class="row" id="address" style="display:none">
+                <div class="col-md-3">
+                  <p>git地址:</p>
+                </div>
+                <div class="col-md-6">
+                  <input type="text" name="git" placeholder="http://www.demo.com/www.git" id="address" />
+<!--                  <label class="btn btn-success fileinput-button" >  <input type="submit" value="确定上传" /></label> -->
+                 
+                   
+                </div>
+               <div class="col-md-3"> <button type="button" id="send" class="btn btn-success fileinput-button" >提交</button></div>
+               
+<!--               	<div class="col-md-3">
+                    <label class="btn btn-success fileinput-button"  for="fileupload">
+                        <input type="submit" value="确定上传" />
+		              <i class="fa fa-upload"></i>
+                              上传地址
+                         
+		          </label>
+        		</div>-->
+          </div>
+            </form>     
+<!--          style="display:none"-->
+            
+        	<div class="row" id="bao"  >
+        		<div class="col-md-3">
+<!--        			<p>源代码上传：</p>-->
+                                <p>上传压缩包：</p>
+        		</div>
+        		<div class="col-md-6">
+        			<input type="text" value="" id="showfileurl" readonly="readonly" placeholder="支持类型: zip,gz,tar,tgz,rar"/>
+		          <input id="fileupload" type="file" name="uploadfile" multiple style="display: none;">
+                          
+<!--                             <input id="fileuploads" type="file" name="uploadfile"  >
+                          -->
+                          
+		          <div id="progress" style="display:none;" class="progress">
+                              
+		              <div class="progress-bar progress-bar-success" > </div>
+		          </div>
+        		</div>
+        		<div class="col-md-3">
+        			<label class="btn btn-success fileinput-button" for="fileupload">
+		              <i class="fa fa-upload"></i>
+                              上传压缩包
+<!--		              <span><a class="fl bc3box p3 fs14 tac db br3 ml20 pt5 pb5 pl30 pr30">点击上传</a></span>-->
+<!--		              	浏览-->
+<!--		               The file input field used as target for the file upload widget -->
+		          </label>
+        		</div>
+        	</div>
+          
+        	
+        	<!-- <div class="row">
+	        		<div class="col-md-3">
+	        			<p>选择服务：</p>
+	        		</div>
+	        		<div class="col-md-6">
+                  <if condition="$servicelist[0]['show'] eq '1'">
+									<label class="wzh_radio" for="appcheck">
+				        		<input id="appcheck" class="wzh_check" type="checkbox" name="app" width="25px" checked disabled />
+				        		{$servicelist[0]['info']}
+				        		<span class="wzh_icon_checked"></span>
+				        	</label>
+                  </if>
+                  <if condition="$servicelist[1]['show'] eq '1'">
+				        	<label class="wzh_radio" for="appreinforce">
+				        		<input id="appreinforce" class="wzh_check" type="checkbox" name="app1" width="25px" />
+				        		{$servicelist[1]['info']}
+				        		<span class="wzh_icon_checked"></span>
+				        	</label>
+                  </if>
+			        </div>
+        	</div> -->
+          <!--拖动上传-->
+          <!--<div class="upload-area">
+          	<form action="/file-upload" class="dropzone" id="dropzone">
+						  <div class="fallback">
+						    <input id="drop-file" name="file" type="file" />
+						  </div>
+						</form>
+						<label for="drop-file">上传</label>
+          </div>-->
+          
+        </div>
+        <div id="uploadtip" style="text-align: left;font-size: 30px;color: #333;">
+          </div>
+        
+      </div>
+  </div>
+</div>
+  <script type="text/javascript" src="__PUBLIC__/js/centerDetection.js"></script>
+
+
+    <span id="errtip" style="display: none;">{$_GET['tip']}</span>
+      <div class="dttcenAddDownpDFtip bc2box" id="errmess">
+        <div class="ws6 mac bcf br10">
+          <div class="title pl20 pr20 pt15 pb10 fs22 fc3"><span class="cp close">×</span>提示</div>
+            <div class="button pl20 pr20 pt15 pb40 fs22 errmess" style="color: red;text-align: center;">     
+            </div>
+            <div style="text-align: center;" id="btntipaction" style="display:block;">
+              <div id='sure-err' >
+                <a hre="" class="bdn fcf bc3box pt8 pb8 pl30 pr30 fs14 tac br5" >确定</a>
+              </div>
+            </div><br/>
+        </div>
+      </div>
+    
+    
+    
+      <div class="modal fade" id="report" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                  <form action="{:U('Word/report')}" method='post'>
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">下载报告</h4>
+                        </div>
+                         <div class="modal-body">
+                             <div class="row">
+                                 <div class="col-sm-3"></div>
+                                <div class="col-sm-9">
+                                     <input type="hidden" name="id" >
+                                      <input type="hidden" name="appid" >
+                                    <p style="font-size:32px;">请选择报告类型</p>
+                                    <p style="font-size:28px;">	
+                                        <input type="radio"  name="lei"   value="word" checked/>word &nbsp;&nbsp; &nbsp;     
+                                        <input type="radio"  name="lei"   value="pdf"/>pdf</p> 
+                                </div>
+
+                            </div>
+
+
+
+                           <div class="modal-footer">
+                            <input class="btn btn-primary" type="submit" value="确定下载">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+
+                        </div>
+
+                         </div></form>
+                </div>
+            </div>
+  <script type="text/javascript">
+    function checkModal(appid) {
+       // alert(appid);
+        $('input[name=appid]').val(appid);
+        $("#report").modal('show');
+   }
+</script>
+<!--  <script src="__PUBLIC__/plugins/dropzone/dropzone.min.js" type="text/javascript" charset="utf-8"></script>-->
+  <!--<script type="text/javascript">
+  	$("#dropzone").dropzone({
+  		url: "./Uploads" ,
+  		method: "post",
+  		uploadMultiple: false,
+  		addRemoveLinks: true,
+  		filesizeBase: 1024,
+  		maxFiles: 1,
+  		autoProcessQueue: false,
+  		dictRemoveFile: "移出当前文件",
+  		dictFallbackMessage: "当前浏览器不支持该上传插件",
+  		dictMaxFilesExceeded: "一次只能上传一个文件",
+  		dictDefaultMessage: "拖动文件上传，或者点击上传"
+  	});
+  </script>-->
+  </body>
+</html>

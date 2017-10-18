@@ -1,0 +1,72 @@
+<include file="Layout/header" />
+<if condition="count($userlist) == 0">
+<span id="p" style="display: none;"><?php echo $_GET["p"]; php?></span>
+<script>
+  var p = $('#p').html();
+  if( p == 0){
+    p=1; 
+    window.location.href="__URL__/info_manage/p/"+p+'.html'; 
+  }
+</script>
+</if>
+
+<div class="layout ws10 mac content afcf settingBox">
+  <div class="mt30 bc2box br10 p30 ofh">
+    <div class="ws2 fl sleft">
+      <ul class="fs14 lh30 mr30 tac">
+        <li class="bc1box br3"><a href="{:U('Manage/info_manage')}">账户管理</a></li>
+        <li class="mt5"><a href="{:U('Vocationtype/list_vocationtype')}">应用前缀</a></li>
+        <li class="mt5"><a href="{:U('Company/list_company')}">部门名称</a></li>
+        <li class="mt5"><a href="{:U('Manage/log_manage')}">日志管理</a></li>
+        <li class="mt5"><a href="{:U('Manage/pdfext_list')}">报告设置</a></li>
+        <!-- <li class="mt5"><a href="{:U('Manage/feedbacklist_manage')}">应用反馈</a></li> -->
+      </ul>
+    </div>
+    <div class="ws10 fr bdl9 pl30 sright">
+      <div class="tar"><a class="bc3box pt5 pb5 pl20 pr20 fs14 tac dib br3" href="{:U('Manage/adduser_manage')}">创建账户</a></div>
+      <table width="100%" cellspacing="0" cellpadding="0" class="table tableBlue mt10">
+          <tr>
+            <th class="nwp">邮箱</th>
+            <th class="nwp">收费类型</th>
+            <th class="nwp">用户类型</th>
+            <th class="nwp">用户名</th>
+            <th class="time nwp">最后登录时间</th>
+            <th class="inip nwp">最后登录IP</th>
+            <th class="nwp">操作</th>
+          </tr>
+          <volist name="userlist" id="vo">
+          <tr>
+            <td>{$vo.loginemail}</td>
+            <td>
+            {$vo.zhpaytype}
+            </td>
+            <td>
+            <if condition="$vo.usertypeid eq 3">
+              {$vo.zhusertype}&nbsp;&nbsp;&nbsp;{$vo.zhvocationtype}
+            <elseif condition="$vo.usertypeid eq 2" />
+              {$vo.zhusertype}
+            <else />
+              {$vo.zhusertype}
+            </if>
+            </td>
+
+            <td>{$vo.realname}</td>
+            <td class="time">{$vo.lasttime}</td>
+            <td class="inip">{$vo.ip}</td>
+            <td class="btn">
+              <a href="{:U('Personal/detial_personal',array('userid'=>$vo['userid']))}">详细</a>
+              <a class="ml5" href="{:U('Personal/modifypass_personal',array('uid'=>$vo['userid']))}">修改密码</a>
+              <a class="ml5" href="{:U('Personal/modifyinfo_personal',array('uid'=>$vo['userid']))}">修改信息</a>
+              <a class="ml5" href="{:U('Personal/modifypower_personal',array('uid'=>$vo['userid']))}">修改权限</a>
+              <a class="ml5" url="{:U('Manage/deluser_manage',array('uid'=>$vo['userid']))}" onclick="delRecord($(this).attr('url'));">删除</a></td>
+          </tr>
+         </volist>
+      </table>
+      <div align="center" class="fenye">
+      {$pageshow}
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript" src="__PUBLIC__/js/infomanage.js"></script>
+<include file="Layout/footer" />

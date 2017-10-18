@@ -1,0 +1,63 @@
+<include file="Layout/header" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/plugins/timepicker/css/jquery-ui.css" />
+<script type="text/javascript" src="__PUBLIC__/plugins/timepicker/js/jquery-ui.js"></script>
+<script type="text/javascript" src="__PUBLIC__/plugins/timepicker/js/jquery-ui-slide.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/plugins/timepicker/js/jquery-ui-timepicker-addon.js"></script>
+
+<div class="layout ws10 mac content afcf settingBox setlogBox">
+  <div class="mt30 bc2box br10 p30 ofh">
+    <div class="ws2 fl sleft">
+      <ul class="fs14 lh30 mr30 tac">
+        <li><a href="{:U('Manage/info_manage')}">账户管理</a></li>
+        <li class="mt5"><a href="{:U('Vocationtype/list_vocationtype')}">应用类型</a></li>
+        <li class="mt5"><a href="{:U('Company/list_company')}">部门名称</a></li>
+        <li class="bc1box br3 mt5"><a href="{:U('Manage/log_manage')}">日志管理</a></li>
+        <li class="mt5"><a href="{:U('Manage/pdfext_list')}">报告设置</a></li>
+        <!-- <li class="mt5"><a href="{:U('Manage/feedbacklist_manage')}">应用反馈</a></li> -->
+      </ul>
+    </div>
+    <div>
+      <div>
+        <table width="83%" cellspacing="0" cellpadding="0" class="table tableBlue fs14">
+          <form action="{:U('Manage/searchlog_manage')}" method="GET" id="searchlog">
+          <tr>
+            <td>登录账号:<input class="bcn wzh_input oh fcwhite fs14" type="text" name="loginemail" <if condition="$_GET['loginemail'] neq null">value="{$_GET['loginemail']}"</if> placeholder="输入账号" />
+            IP:<input class="bcn wzh_input oh fcwhite fs14" type="text" name="ip" <if condition="$_GET['ip'] neq null">value="{$_GET['ip']}"</if> placeholder="IP" />
+            开始时间:<input class="bcn wzh_input oh fcwhite fs14" type="text" name="starttime" <if condition="$_GET['starttime'] neq null">value="<?php echo date('Y-m-d H:i',$searchlog['0']['handletime']);?>"</if> placeholder="开始时间" />
+            结束时间:<input class="bcn wzh_input oh fcwhite fs14" type="text" name="endtime" <if condition="$_GET['endtime'] neq null">value="<?php echo date('Y-m-d H:i');?>"</if> placeholder="结束时间" />
+            操作:<input class="bcn wzh_input oh fcwhite fs14" type="text" name="action" <if condition="$_GET['action'] neq null">value="{$_GET['action']}"</if> placeholder="操作条件" />
+<div class="btn" style="background-color: #fff;"><img src="__PUBLIC__/img/icon_search.png" width="20" onclick="$('#searchlog').submit();"/></div></td>
+          </tr>
+          </form>
+        </table>
+      </div><br/>
+      <div>
+      <table width="83%" cellspacing="0" cellpadding="0" class="table tableBlue fs14" id="logShow" >
+          <tr id="logHead">
+            <th class="tal nwp time">时间</th>
+            <th class="tal nwp">ID</th>
+            <th class="tal nwp">登录账号</th>
+            <th class="tal nwp">用户名</th>
+            <th class="tal nwp inip">IP</th>
+            <th class="tal nwp">操作</th>
+          </tr>
+          <tbody class="ajax" id="logDetialContent">
+            <volist name="searchlog" id="v1">
+            <tr>
+              <td class="time">{$v1.handletime|date="Y-m-d H:i:s",###}</td>
+              <td>{$v1.userid}</td>
+              <td>{$v1.username}</td>
+              <td><if condition="$v1['username'] eq 'admin'">管理员<else />{$v1.realname}</if></td>
+              <td class="inip">{$v1.handleip}</td>
+              <td>{$v1.handlecontent}</td>
+            </tr>
+            </volist>
+          </tbody>
+      </table>
+      <div style="text-align: center;">{$pageshow}</div>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript" src="__PUBLIC__/js/logmanage.js"></script>
+<include file="Layout/footer" />

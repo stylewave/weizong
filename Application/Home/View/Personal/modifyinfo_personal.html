@@ -1,0 +1,62 @@
+<include file="Layout/header" />
+<div class="layout ws10 mac content afcf yonghuBox">
+
+<div class="mt30 bc2box br10 p30 ofh">
+    <div class="ws2 fl sleft">
+      <ul class="fs14 lh30 mr30 tac">
+        <li class="bc1box br3"><a href="{:U('Manage/info_manage')}">账户管理</a></li>
+        <li class="mt5"><a href="{:U('Vocationtype/list_vocationtype')}">应用类型</a></li>
+        <li class="mt5"><a href="{:U('Company/list_company')}">部门名称</a></li>
+        <li class="mt5"><a href="{:U('Manage/log_manage')}">日志管理</a></li>
+        <li class="mt5"><a href="{:U('Manage/pdfext_list')}">报告设置</a></li>
+        <!-- <li class="mt5"><a href="{:U('Manage/feedbacklist_manage')}">应用反馈</a></li> -->
+      </ul>
+    </div>
+    <div class="ws10 fr bdl9 pl30 pr30 sright">
+      <!-- 用户信息 -->
+       <form class="form" action="__SELF__" method="POST" id="form2">
+        <div class="fs16 fwb"><span>修改用户信息</span><a style="float: right;margin-right:2%;" class="fr bc3box pt5 pb5 pl20 pr20 fs14 tac br3" href="{:U('Manage/info_manage')}">返回</a></div>
+        <table cellspacing="0" cellpadding="5" class="mt20">
+          <tr>
+            <td class="tar"></td>
+            <td class="pl10">{$info.loginemail}</td>
+            <td class="pl10">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="tar">职业</td>
+            <td class="pl10"><input class="ws12 wzh_input p5 bcn bd9 fcf" type="text" name="job" value="{$info['job']}"/></td>
+            <td class="pl10"><span id="jobinfo" style="color:red;">&nbsp;</span></td>
+          </tr>
+          <tr>
+            <td class="tar nwp">姓名</td>
+            <td class="pl10"><input class="ws12 wzh_input p5 bcn bd9 fcf" type="text" name="username" value="{$info['realname']}"/></td>
+            <td class="pl10"><span id="usernameinfo"  style="color:red;">&nbsp;</span></td>
+          </tr>
+          <tr>
+            <td class="tar nwp">联系电话</td>
+            <td class="pl10"><input class="ws12 wzh_input p5 bcn bd9 fcf" type="text" name="phone" value="{$info['phone']}"/></td>
+            <td class="pl10"><span id="phoneinfo"  style="color:red;">&nbsp;</span></td>
+          </tr>
+          <tr>
+            <td class="tar nwp">联系地址</td>
+            <td class="pl10"><input class="ws12 wzh_input p5 bcn bd9 fcf" type="text" name="address" value="{$info['address']}"/></td>
+            <td class="pl10"><span style="color:red;">&nbsp;</span></td>
+          </tr>
+          <tr>
+            <td class="tar nwp">开发者类型</td>
+            <td class="pl10"><input  type="radio" value='0' name="dvrtype" <if condition="$info['dvrtype'] eq '0'"> checked="checked" </if> />个人<input  type="radio" value="1" name="dvrtype" <if condition="$info['dvrtype'] eq '1'">checked="checked"</if> />企业</td>
+            <td class="pl10">&nbsp;</td>
+            <td class="pl10" width="40%">&nbsp;&nbsp;</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td class="pl10 pt20"><input type="button" class="ws12 bc3box p5 fs14 fcf tac db br3 bdn" value="修改用户信息" id="formsubmit2" /></td>
+            <td><font id="personalErrorInfo" color="red"></font></td>
+          </tr>
+        </table>
+      </form>
+    </div>
+  </div>
+</div>
+<script type="text/javascript" src="__PUBLIC__/js/modifypersonal.js"></script>
+<include file="Layout/footer" />

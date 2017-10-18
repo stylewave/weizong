@@ -1,0 +1,330 @@
+<!-- <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="icon" href="__PUBLIC__/img/fav_icon_32.ico" />
+<link type="text/css" rel="stylesheet" href="__PUBLIC__/css/style.css" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/font-awesome.css"/>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/bootstrap.css"/>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/dropzone/basic.min.css"/>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/dropzone/dropzone.min.css"/>
+
+<!--[if !IE]> -->
+<!-- <script src="__PUBLIC__/js/jquery-2.1.4.min.js"></script> -->
+<![endif]-->
+<!--  IE8只能支持jQuery1.9 -->
+<!--[if IE]> -->
+<script src="__PUBLIC__/js/jquery-1.9.1.min.js"></script>
+<!-- <![endif]-->
+<script src="__PUBLIC__/js/md5.js"></script>
+<script type="text/javascript" src='__PUBLIC__/js/swfupload/swfupload.js'></script>
+
+<script type="text/javascript" src='__PUBLIC__/js/jquery.swfupload.js'></script>
+<script type="text/javascript" src="__PUBLIC__/js/script.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/RegExp.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/bootstrap.min.js"></script>
+<title>微众源代码安全检测系统</title>
+	<style type="text/css">
+	html,body{
+		margin: 0;
+		padding: 0;
+		background-color: #666666;
+	}
+	.a4-container{
+		width: 875px;
+		margin:  30px auto;
+		background-color: #ffffff;
+		min-height: 300px;
+		color: #454545;
+		padding: 30px;
+	}
+	.bottom-line{
+		width: 100%;
+		height: 1px;
+		background-color: #e1e1e1;
+		margin: 50px 0;
+	}
+	.report-content{
+		margin-top: 10px;
+	}
+	.report-content .report-group .title h3{
+		font-weight: bold;
+		float: left;
+		padding-bottom: 5px;
+		border-bottom: 3px solid #e1e1e1;
+	}
+         .cridanger-1{
+                background-color: #a8000b;
+
+                color: #ffffff;
+                     }
+	.danger-1{
+		background-color: #ff212f;
+		color: #ffffff;
+	}
+	.warning-1{
+		background-color: #FF9800;
+		color: #ffffff;
+	}
+	.normal-1{
+		background-color: #4fca81;
+		color: #ffffff;
+	}
+	.table tr .count{
+		background-color: #2196F3;
+		color: #ffffff;
+	}
+	.report-detail{
+		border: 1px solid #e1e1e1;
+	}
+	.report-detail .detail-header{
+
+	}
+	.report-detail .detail-header .header-title{
+		padding: 0 10px;
+	}
+	.report-detail .detail-body .detail-part .part-title{
+
+		background-color: #e1e1e1;
+	}
+	.report-detail .detail-body .detail-part .part-title h5{
+		padding: 10px;
+	    margin: 0px 20px;
+	    float: left;
+	    background-color: #ffffff;
+	}
+	.report-detail .detail-body .detail-part .part-content{
+
+	}
+	.report-detail .detail-body .detail-part .part-content .part-list{
+		margin:0;
+		padding: 0 10px 0 22px;
+	}
+	.report-detail .detail-body .detail-part .part-content .part-list li{
+		padding: 5px 0;
+		list-style: disc;
+	}
+	.title-badge{
+		display: inline-block;
+		margin: 0;
+		padding: 10px;
+	}
+	</style>
+</head>
+<body>
+    <div class="a4-container">
+      
+    	<h1 class="text-center" style="color:#147efb;">{$info.name}</h1>
+    	<h3 class="text-center">源代码检测报告</h3>
+    	<p class="text-center">{$info.subtime}</p>
+
+    	<div class="bottom-line"></div>
+
+		<p>检测工具：Fortify</p>
+
+		<div class="report-content">
+			<div class="report-group">
+				<div class="title">
+					<h3>摘要</h3>
+					<div class="clearfix"></div>
+					<p>本报告为开发人员提供源代码扫描细节和信息理解和解决源代码审计过程中发现的风险。本报告的读者主要是项目经理和开发人员。本节提供的分析过程中发现的问题进行了概述。</p>
+				</div>
+				<table class="table table-bordered" style="border:1px solid #e1e1e1;">
+					<tbody>
+						  <tr>
+                                                                         <td>项目名</td>
+                                                                         <td>{$info['name']}</td>
+                                                                         <td>检测工具</td>
+                                                                         <td>Fortify(16.10.0095 )</td>
+                                                                 </tr>
+                                                                 <tr>
+                                                                         <td>软件版本</td>
+                                                                         <td>{$info['version']}</td>
+                                                                         <td>风险库版本</td>
+                                                                         <td>16.10.0095</td>
+                                                                 </tr>
+                                                                  <tr>
+                                                                         <td>编译环境</td>
+                                                                         <td>{$info['env']}</td>
+                                                                         <td>代码语言</td>
+                                                                         <td>{$info['lang']}</td>
+                                                                 </tr>
+                                                                  <tr>
+                                                                         <td>压缩包MD5</td>
+                                                                         <td>{$info['md5']}</td>
+                                                                         <td>预编译命令</td>
+                                                                         <td>{$info['shell']}</td>
+                                                                 </tr>
+                                                                  <tr>
+                                                                         <td>提交时间</td>
+                                                                         <td>{$info['subtime']}</td>
+                                                                         <td>测试用时</td>
+                                                                         <td>{$info['spendtime']}</td>
+                                                                 </tr>
+                                                                 <tr>
+                                                                         <td>风险种类个数</td>
+                                                                         <td>{$leicount}</td>
+                                                                         <td>中危风险个数</td>
+                                                                         <td>{$midcount}</td>
+                                                                 </tr>
+                                                                 <tr>
+                                                                         <td>总风险个数</td>
+                                                                         <td>{$count}</td>
+                                                                         <td>高危风险个数</td>
+                                                                         <td>{$hcount}</td>
+                                                                 </tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div class="bottom-line"></div>
+
+			<div class="report-group">
+				<div class="title">
+					<h3>问题汇总</h3>
+					<div class="clearfix"></div>
+				</div>
+
+				<div class="chart-img">图表图片
+                                 
+                                  <!--<div style="align:center;padding-left: 65px;">   <img src='__ROOT__/Uploads/example/one.png' hight="100px" width="660px" ></div>;-->
+                                <div style='align:center;padding-left: 65px;'>   <img src='__ROOT__/Uploads/example/two.png '   hight="100px" width="560px"></div>;
+                                 <!--<div style='align:center;padding-left: 65px;'>      <img src='__ROOT__/Uploads/example/three.png '  hight="100px" width="660px"></div>;-->
+                                  <div style='align:center;'>      <img src='__ROOT__/Uploads/example/f.png '  hight="100px" width="860px"></div>;
+                              
+                                </div>
+
+				<table class="table table-bordered" border="1" width="100%" >
+					<thead>
+						<tr>
+							<th>类别</th>
+                                                        <th class="danger-1">严重数</th>
+							<th class="danger-1">高危数</th>
+							<th class="warning-1">中危数</th>
+							<th class="normal-1">低危数</th>
+							<th class="count">统计</th>
+						</tr>
+					</thead>
+					<tbody>
+                                            <foreach name ="datalist" item="vv">
+						<tr>
+							<td>{$vv.testtype}</td>
+                                                        <td>{$vv.cricount}</td>
+							<td>{$vv.hicount}</td>
+							<td>{$vv.medcount}</td>
+							<td>{$vv.lowcount}</td>
+							<td>{$vv.count}</td>
+						</tr>
+                                            </foreach>	
+					</tbody>
+				</table>
+			</div>
+
+			<div class="bottom-line"></div>
+
+			<div class="report-group">
+				<h2 class="text-center">问题详情</h2>
+                         <foreach name ="datalist" item="vvv">
+				<h3>第{$key+1}类：{$vvv.testtype}</h3>
+				<div class="title">
+					<h3>风险解释</h3>
+					<div class="clearfix"></div>
+					<p>{$vvv['datalist']['damage']}</p>
+				</div>
+                                <div class="title">
+					<h3>修复建议</h3>
+					<div class="clearfix"></div>
+					<p>{$vvv['datalist']['suggest']}</p>
+				</div>
+
+				<div class="title">
+					<h3>概要</h3>
+					<div class="clearfix"></div>
+				</div>
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th>类别</th>
+                                                            <th class="cridanger-1">严重数</th>
+							<th class="danger-1">高危数</th>
+							<th class="warning-1">中危数</th>
+							<th class="normal-1">低危数</th>
+							<th class="count">统计</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+                                                              <td>{$vvv.testtype}</td>
+                                                               <td>{$vvv.cricount}</td>
+                                                               <td>{$vvv.hicount}</td>
+                                                               <td>{$vvv.medcount}</td>
+                                                               <td>{$vvv.lowcount}</td>
+                                                               <td>{$vvv.count}</td>
+							
+						</tr>
+					</tbody>
+				</table>
+
+				<div class="title">
+					<h3>详情</h3>
+					<div class="clearfix"></div>
+				</div>
+
+				<div class="report-detail">
+                                     <foreach name ="vvv.children" item="vvv2">
+					<div class="detail-header">
+						<h4 class="header-title pull-left">{$key}：{$vvv2.infos}</h4>
+                                                <if condition="$vvv2.zhresult eq '严重' "><h4 class="cridanger-1 pull-right title-badge">严重</h4>
+                                                <elseif condition="$vvv2.zhresult eq '高危' "/><h4 class="danger-1 pull-right title-badge">高危</h4>
+                                                 <elseif condition="$vvv2.zhresult eq '中危' "/><h4 class="warning-1 pull-right title-badge">中危</h4>
+                                                  <elseif condition="$vvv2.zhresult eq '低危' "/><h4 class="normal-1 pull-right title-badge">低危</h4>
+                                                </if>
+						
+						<div class="clearfix"></div>
+					</div>
+					<div class="detail-body">
+						
+						<div class="detail-part">
+							<div class="part-title">
+								<h5>代码位置</h5>
+								<div class="clearfix"></div>
+							</div>
+							<div class="part-content">
+								<ul class="part-list">
+									<li>{$vvv2.infoss}</li>
+									
+								</ul>
+							</div>
+						</div>
+					</div>
+                                     </foreach>
+				</div>
+                                
+                         </foreach>
+                                
+                                
+                              
+                                
+                          
+                                
+                                
+                                
+                                
+
+			</div>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+
+		</div>
+
+    </div>
+</body>
+</html>

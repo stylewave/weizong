@@ -1,0 +1,146 @@
+<include file="Layout/header"/>
+<div class="layout ws10 mac content afcf dttcenBox dttdtlBox">
+  <div class="mt30 bc2box br10 ofh">
+  <!-- <img src="__ROOT__/{$appinfo.icon}" width="30" /><br/>
+            名称:&nbsp;&nbsp;&nbsp;{$appinfo['realname']}<br/>包名:&nbsp;&nbsp;&nbsp;{$appinfo['package']} -->
+    
+    <div class="pt30 pb30">
+      <div class="ml40 pl40 pr30 show ws12">
+        <?php if($compareResult[0]['result_3'] != NULL ){ $width = 'ws3'; }else{ $width ='ws4';} ?>
+        <div class="mt15 ofh ws11">
+          <div class="ws1 fl">
+            <if condition="substr($appinfo['icon'],0,4) neq 'http'">
+            <td><img src="__ROOT__/{$appinfo.icon}" width="80" /></td>
+            <else/>
+             <td><img src="{$appinfo.icon}" width="80" /></td>
+            </if>
+          </div>
+          <div class="ws9">
+          <div class="fl fw16 fs24" style="width:25%;">应用名:&nbsp;&nbsp;{$appinfo['realname']}</div>
+          <div class="fl fw16 fs24" style="width:63%;">包名:&nbsp;&nbsp;{$appinfo['package']}</div>
+          </div>
+        </div>
+        <hr style="margin-right:105px;">
+        <div class="mt15 ofh ws12">
+          <div class="{$width} fl">
+            &nbsp;&nbsp;&nbsp;MD5:&nbsp;&nbsp;&nbsp;
+          </div>
+          <div class="{$width} fl fw16">{$compareResult[1]['md5_1']}</div>
+          <div class="{$width} fl fw16">{$compareResult[2]['md5_2']}</div>
+          <if condition="$compareResult[3]['result_3'] neq null">
+            <div class="{$width} fl fw16">{$compareResult[3]['md5_3']}</div>
+          </if>
+        </div>
+        <div class="mt15 ofh ws12">
+          <div class="{$width} fl">
+            &nbsp;&nbsp;&nbsp;版本:&nbsp;&nbsp;&nbsp;
+          </div>
+          <div class="{$width} fl fw16 fs16">{$compareResult[1]['version_1']}</div>
+          <div class="{$width} fl fw16 fs16">{$compareResult[2]['version_2']}</div>
+          <if condition="$compareResult[3]['result_3'] neq null">
+            <div class="{$width} fl fw16 fs16">{$compareResult[3]['version_3']}</div>
+          </if>
+        </div>
+        <div class="mt15 ofh ws12">
+          <div class="{$width} fl">
+            &nbsp;&nbsp;&nbsp;安全等级:&nbsp;&nbsp;&nbsp;
+          </div>
+          <div class="{$width} fl fw16 fs16">{$compareResult[1]['secscore_1']|ranking}</div>
+          <div class="{$width} fl fw16 fs16">{$compareResult[2]['secscore_2']|ranking}</div>
+          <if condition="$compareResult[3]['result_3'] neq null">
+            <div class="{$width} fl fw16 fs16">{$compareResult[3]['secscore_3']|ranking}</div>
+          </if>
+        </div>
+        <div class="mt15 ofh ws12">
+          <div class="{$width} fl">
+            &nbsp;&nbsp;&nbsp;高危漏洞数:&nbsp;&nbsp;&nbsp;
+          </div>
+          <div class="{$width} fl fw16 fs16">{$result_1['high']}</div>
+          <div class="{$width} fl fw16 fs16">{$result_2['high']}</div>
+          <if condition="$compareResult[3]['result_3'] neq null">
+            <div class="{$width} fl fw16 fs16">{$result_3['high']}</div>
+          </if>
+        </div>
+        <div class="mt15 ofh ws12">
+          <div class="{$width} fl">
+            &nbsp;&nbsp;&nbsp;中危漏洞数:&nbsp;&nbsp;&nbsp;
+          </div>
+          <div class="{$width} fl fw16 fs16">{$result_1['mid']}</div>
+          <div class="{$width} fl fw16 fs16">{$result_2['mid']}</div>
+          <if condition="$compareResult[3]['result_3'] neq null">
+            <div class="{$width} fl fw16 fs16">{$result_3['mid']}</div>
+          </if>
+        </div>
+        <div class="mt15 ofh ws12">
+          <div class="{$width} fl">
+            &nbsp;&nbsp;&nbsp;低危漏洞数:&nbsp;&nbsp;&nbsp;
+          </div>
+          <div class="{$width} fl fw16 fs16">{$result_1['low']}</div>
+          <div class="{$width} fl fw16 fs16">{$result_2['low']}</div>
+          <if condition="$compareResult[3]['result_3'] neq null">
+            <div class="{$width} fl fw16 fs16">{$result_3['low']}</div>
+          </if>
+        </div>
+        <div class="mt15 ofh ws12 tac fs24" style="font-size:15px">
+            <!-- 漏洞对比 -->
+            <hr style="margin-right:105px;">
+        </div>
+        <volist name="compareResult" id="vo">
+        <div class="mt15 ofh {$width} fl">{$vo.zhtesttype}&nbsp;&nbsp;&nbsp;&nbsp;{$vo.zhtestname}</div>
+        <div class="mt15 ofh {$width} fl">
+          <ul>
+             <if condition='$vo.result_1 eq 1'>
+                <li class="anqun"><span class="fclowrisk">{$vo.resultname_1}</span></li>
+              </if>
+              <if condition='$vo.result_1 eq 2'>
+                <li class="diwei"><span class="fcmidrisk">{$vo.resultname_1}</span></li>
+              </if>
+              <if condition='$vo.result_1 eq 3'>
+                <li class="zhongwei"><span class="fczhongwei">{$vo.resultname_1}</span></li>
+              </if>
+              <if condition='$vo.result_1 eq 4'>
+                <li class="gaowei"><span class="fchighrisk">{$vo.resultname_1}</span></li>
+              </if>
+          </ul>
+        </div>
+        <div class="mt15 ofh {$width} fl">
+          <ul>
+            <if condition='$vo.result_2 eq 1'>
+                <li class="anqun"><span class="fclowrisk">{$vo.resultname_2}</span></li>
+            </if>
+            <if condition='$vo.result_2 eq 2'>
+              <li class="diwei"><span class="fcmidrisk">{$vo.resultname_2}</span></li>
+            </if>
+            <if condition='$vo.result_2 eq 3'>
+              <li class="zhongwei"><span class="fczhongwei">{$vo.resultname_2}</span></li>
+            </if>
+            <if condition='$vo.result_2 eq 4'>
+              <li class="gaowei"><span class="fchighrisk">{$vo.resultname_2}</span></li>
+            </if>
+          </ul>
+        </div>
+        <if condition="$vo.result_3 neq null">
+          <div class="mt15 ofh {$width} fl">
+            <ul>
+              <if condition='$vo.result_3 eq 1'>
+                <li class="anqun"><span class="fclowrisk">{$vo.resultname_3}</span></li>
+            </if>
+            <if condition='$vo.result_3 eq 2'>
+              <li class="diwei"><span class="fcmidrisk">{$vo.resultname_3}</span></li>
+            </if>
+            <if condition='$vo.result_3 eq 3'>
+              <li class="zhongwei"><span class="fczhongwei">{$vo.resultname_3}</span></li>
+            </if>
+            <if condition='$vo.result_3 eq 4'>
+              <li class="gaowei"><span class="fchighrisk">{$vo.resultname_3}</span></li>
+            </if>
+            </ul>
+          </div>
+        </if>
+       </volist>
+      </div>
+    </div>
+  </div>
+</div>
+<br/>
+<include file="Layout/footer"/>

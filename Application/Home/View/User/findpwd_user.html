@@ -1,0 +1,31 @@
+<include file="Layout/header"/>
+<body class="loginPage">
+<div class="layout ws10 mac">
+  <form id="formfindpwd" class="formBox fr bc2box br5" method="POST" action="{:U('User/findpwd_user',array('action'=>'question'))}">
+    <div class="fs24 fcf">找回密码</div>
+    <div class="text mt30">
+      <div class="mb5 fs14">请输入你的注册邮箱 </div>
+      <input class="ws12 wzh_input p5 bcn bd9 fcf" maxlength="32" type="text" name="securityemail" placeholder="邮箱地址" />
+      <font class="mb5 fs14" color="red" id="securitycheck">&nbsp;</font>
+    </div>
+    <div class="text mt10">
+      <div class="mb5 fs14">密保问题&nbsp;&nbsp;<font color="red" id="securityquestion">请输入邮箱↑</font></div>
+    </div>
+    <div class="text mt10">
+      <div class="mb5 fs14">密保答案</div>
+      <input  class="ws12 wzh_input p5 bcn bd9 fcf" maxlength="32" type="text" name="answer" placeholder="请输入密保答案" />
+    </div>
+    <div class="text mt15 ofh"> <img class="fr mt5 captcha" src="__MODULE__/Layout/captcha" onclick="javascript:this.src = this.src +'?' + Math.random();" style="width:85px;height:24px;" id='clickpic'/>
+      <input  class="ws6 wzh_input p5 bcn bd9 fcf" maxlength="16" type="text" name="captcha" placeholder="验证码" />
+    </div>
+      <font class="mb5 fs14" id="captchainfo" color="red">&nbsp;</font>
+    <table class="mt40" width="100%" cellspacing="0" cellpadding="0">
+      <tr>
+        <td class="pr5"><input class="fs14 br3 fcf bc0 tac p5 ws12 bd9" type="submit" value="找回密码" id="userfindpwd" onclick="return false"/></td>
+        <td class="pr5"><input class="fs14 br3 fcf bc0 tac p5 ws12 bd9" type="button" value="返回登录"  onclick="location.href=$(this).attr('url');" url="{:U('User/login_user')}"/></td>
+      </tr>
+    </table>
+  </form>
+</div>
+<script type="text/javascript" src="__PUBLIC__/js/userfindpwd.js"></script>
+<include file="Layout/uifooter"/>

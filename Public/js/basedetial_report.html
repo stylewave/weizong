@@ -1,0 +1,442 @@
+<include file="Layout/header"/>
+<div class="layout ws10 mac content afcf dttcenBox dttdtlBox">
+    <div class="mt30 bc2box br10 ofh">
+        <div class="ws4 fl">
+            <div class="item p30">
+                <table width="100%" cellspacing="0" cellpadding="0">
+                    <tr>
+
+<!--                    <if condition="substr($info['icon'],0,4) neq 'http'">
+                        <td><img src="__ROOT__/{$info.icon}" width="80" /></td>
+                        <else/>
+                        <td><img src="{$info.icon}" width="80" /></td>
+                    </if>-->
+
+                    <td>项目名称：{$info.name}</td>
+                    <!--<td align="right" class="score fw2">{$info.secscore|ranking=###}</td>-->
+                    <td valign="bottom" class="fs16"><span class="db pl5 pb5"></span></td>
+                    </tr>
+                </table>
+                <div class="mt30 fs28 fw2">{$info.realname}</div>
+                
+                <div class="mt30 nwp">
+		        	<table class="table">
+		        		<tr>
+		        			<td>软件版本</td>
+		        			<td>{$info.version}</td>
+		        		</tr>
+		        		<tr>
+		        			<td>编译环境</td>
+		        			<td>{$info.env}</td>
+		        		</tr>
+		        		<tr>
+		        			<td>压缩包MD5</td>
+		        			<td>{$info.md5}</td>
+		        		</tr>
+		        		<tr>
+		        			<td>代码语言</td>
+		        			<td>{$info.lang}</td>
+		        		</tr>
+		        		<tr>
+		        			<td>提交时间</td>
+		        			<td>{$info.subtime}</td>
+		        		</tr>
+		        	</table>
+		        </div>
+		        
+                <div class="mt40 ofh">
+                    <a class="fl bc3box p10 fs14 ws4 tac db br3" href="{:U('Report/base_report',array('appid'=>$info['appid']))}">返回</a>
+                    <if condition="$_SESSION['power']['userpayid'] egt '2' OR $_SESSION['power'] eq 'all'">
+                        <a class="fr bc3box p10 fs14 ws4 tac db br3" url="{:U('Report/down_report',array('appid'=>$info['appid']))}" onclick='tipDownPdf($(this).attr("url"));'>下载管理报告</a>
+                    </if>
+                </div>
+
+                <div class="mt40 ofh tac">
+                    <div class="mt40 ofh">
+                        <!--<?php if($multiVersion == 'false'): ?>-->
+                        <if condition="$_SESSION['power']['userpayid'] egt '1' OR $_SESSION['power'] eq 'all'">
+                            <a class="fr bc3box p10 fs14 ws4 tac db br3" style="margin-right: 30%;" url="{:U('Report/downtech_report',array('appid'=>$info['appid']))}"  
+                               <if condition="$_SESSION['power']['userpayid'] eq '3' OR $_SESSION['power'] eq 'all'">
+                                    onclick="tipDownPdf($(this).attr('url'));" 
+                                    <else />
+                                    onclick="regTipTestDetial();"
+                                </if>
+                                />下载技术报告</a>
+                        </if>  
+                        <!--<?php else: ?>-->
+                        <!--<a class="fr bc3box p10 fs14 ws4 tac db br3" url="{:U('Report/downtech_report',array('appid'=>$info['appid']))}"  
+                           <if condition="$_SESSION['power'] eq 'all' OR $_SESSION['power']['userpayid'] egt '3'">
+                                onclick="techPdfTip($(this).attr('url'));"
+                                <else />
+                                onclick="regTipTestDetial();"
+                            </if>
+                            />下载技术报告
+                        </a>
+                        <a class="fl bc3box p10 fs14 ws4"  href="{:U('Report/compare_report',array('appid'=>$info['appid']))}">历史版本比较</a>
+                        <?php endif;?> -->
+                    </div>       
+                    <!--<div class="ml40 pl40 bdl0 show" style="margin-top: 30%;">
+                        <ul style="width:115%;position:relative;left:-13%;">
+                            <li class="" style="float:left;"><span>威胁等级:</span></li>
+                            <li class="anqun" style="float:left;"><span class="fclowrisk">通过</span>
+                            <li class="diwei" style="float:left;"><span class="fcmidrisk">低危</span>
+                            <li class="zhongwei" style="float:left;"><span class="fczhongwei">中危</span>
+                            <li class="gaowei" style="float:left;"><span class="fchighrisk">高危</span>
+                        </ul>
+                      </div>-->
+                </div>
+
+            </div>
+        </div>
+        <div class="ws8 fr pt30 pb30">
+            <div class="ml40 pl40 pr30 bdl9 show" style="overflow: hidden;">
+
+                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                     <foreach name="lists" item="ss" key='keylists'>
+                        <div class="panel panel-default" >
+                            <div class="panel-heading" role="tab" id="headingOne">
+                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne{$ss['id']}" aria-expanded="true" aria-controls="collapseOne">
+                                    <h4 class="panel-title">
+                                        {$keylists+1}、 {$ss.testtype}&nbsp;(<span style="color:red;">{$ss.count}</span>)
+                                    </h4>
+                                </a>
+                            </div>
+                            <div id="collapseOne{$ss['id']}" class="panel-collapse collapse <if condition='$keylists eq 0'> in </if>" role="tabpanel" aria-labelledby="headingOne">
+
+                                <ul class="list-group">
+                                    <volist name="list" id ="tt" key='keylist'>
+                                         
+                                        <if condition="$ss['testtype'] eq $tt['testtype']">
+                                        
+                                            <li class="list-group-item">
+                                                
+                                                {$keylist}:  {$tt.info|mb_substr=###,0,48} <span  <if condition="$tt.zhresult eq '高危'"> class="danger-level"
+                                                    <elseif condition="$tt.zhresult eq '低危'"/> class="warning-level"<else />class="nomal-level"
+                                                    </if>
+                                                        >{$tt.zhresult}
+                                                    </span> 
+                                                <span class="pull-right"><a class="check" onclick= "checkModal('{$tt.info}','{$tt.zhresult}','{$tt.testtype}')" href="#id={$tt['id']}">查看</a>
+                                                    <a class="edit" onclick="editModal('{$tt.id}','{$tt.info}','{$tt.result}','{$tt.testtype}')" href="#">修改</a><a href="#" class="danger" onclick="deleteModel('{$tt.id}','{$tt.appid}')">删除</a></span></li>  
+                                          
+                                        </if>
+                                    </volist>	
+                                </ul>
+
+                            </div>
+
+                        </div>
+                    </foreach>
+                  
+                    
+                </div>
+            </div>
+
+            <volist name="detectInfo" id='v0' key='k'>
+                <if condition="$v0['testtype'] neq null">
+                    <div class="fs24">{$v0['zhtesttype']}</div>
+                </if>
+                <if condition="($v0['showdiv'] eq 1) AND ($v0['first'] eq 1)">   
+                    <div class="mt15 ofh">
+                </if>
+
+                <ul>
+                    <if condition='$v0.result eq 1'>
+                        <li class="anqun"><span class="fclowrisk">{$v0.resultname}</span><span class="fclowrisk">{$v0.zhtestname}
+                    </if>
+                    <if condition='$v0.result eq 2'>
+                        <li class="diwei"><span class="fcmidrisk">{$v0.resultname}</span><span class="fcmidrisk">{$v0.zhtestname}
+                    </if>
+                    <if condition='$v0.result eq 3'>
+                        <li class="zhongwei"><span class="fczhongwei">{$v0.resultname}</span><span class="fczhongwei">{$v0.zhtestname}
+                    </if>
+                    <if condition='$v0.result eq 4'>
+                        <li class="gaowei"><span class="fchighrisk">{$v0.resultname}</span><span class="fchighrisk">{$v0.zhtestname}
+                    </if>
+                    <if condition="$v0['appid'] neq null">
+                        <span class="highline" style="float:right;margin-right: 30px;" onclick="feedback('{$v0.zhtestname} {$v0.resultname}', '{$v0.result}', '{$info.appid}', '{$v0.testname}')">反馈</span>
+                    </if>
+                    </li>
+                </ul>
+                <if condition="($v0['showdiv'] eq 1) AND ($v0['end'] eq 1)">          
+                    </div> 
+                    <hr />
+                </if>       
+            </volist>
+
+
+        </div>
+    </div>
+</div>
+
+<!-- $(".dttcenAddDownpDFtip").show(); -->
+<!-- 下载pdf提示 -->
+<div class="dttcenAddDownpDFtip bc2box" id="errmess">
+    <div class="ws6 mac bcf br10" >
+        <div  class="title pl20 pr20 pt15 pb10 fs22 fc3"><span class="cp close">×</span>提示</div>
+        <div class="button pl20 pr20 pt15 pb40 fs22 errmess" style="color: red;text-align: center;"></div>
+        <div style="text-align: center;" id="btntipaction" style="display:block;">
+            <div id='sure-err' >
+                <a hre="" class="bdn fcf bc3box pt8 pb8 pl30 pr30 fs14 tac br5" >确定</a>
+            </div><br/>
+        </div>
+    </div>
+</div>
+</div>
+<!-- 检测项意见表 -->
+<div class="dttcenAddDownpDFtip bc2box" id="errmess1">
+    <div class="ws6 mac br10 row">
+        <div class="title col-xs-12 fs22 fc3 model-header">
+            <span class="cp close">×</span>
+            <h3>意见反馈</h3>
+        </div>
+        <form action="{:U('Report/feedback')}" method="POST">
+            <div class="fc3 model-body col-xs-12">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <p>修改项:</p> 
+                    </div>
+                    <div class="col-sm-9">
+                        <p id="oldinfo"></p>
+                        <input type="hidden" name="oldresult">
+                        <input type="hidden" name="appid">
+                        <input type="hidden" name="testname">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <p>修改为:</p>
+                    </div>
+                    <div class="col-sm-9">
+                        <select id="selectnewresult" name="newresult" class="pl10 bcn oh">
+                            <volist name="resultlist" id="vr">
+                                <option class="pl10 bcn oh" value="{$vr.id}" >{$vr.resultname}</option>
+                            </volist>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <p>修改理由:</p>
+                    </div>
+                    <div class="col-sm-9">
+                        <textarea name='reason' class="ws10" style="height:20%;margin-top: 10px;"></textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <input type="button" class="btn btn-success center-block"  value="取消" onclick="$('.dttcenAddDownpDFtip').hide();">
+                    </div>
+                    <div class="col-sm-6">
+                        <input  class="btn btn-primary center-block" type="submit" value="提交"/>
+                    </div>
+                </div>
+        </form>
+    </div>
+</div>
+</div>
+
+<div class="modal fade" id="checkmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">查看详情</h4>
+            </div>
+             <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <p>类别:</p> 
+                    </div>
+                    <div class="col-sm-9">
+<!--                         <input type="text" name="testtypes"  />-->
+<!--                        <p id="oldinfo" id="testtype">应用权限管理安全 通过</p>-->
+                                       <p  id="testtype" name='testtype'></p>
+                        <input type="hidden" name="oldresult" value="1">
+                        
+                        <input type="hidden" name="appid" value="1205">
+                        <input type="hidden" name="testname" value="10">
+                    </div>
+                </div>
+                  <div class="row">
+                    <div class="col-sm-3">
+                        <p>结果:</p>
+                    </div>
+                    <div class="col-sm-9">
+                        <input type="text" name="reuseltss" /><if condition='value eq hight '>高</if>
+                             </div>
+                </div>
+               
+                <div class="row">
+                    <div class="col-sm-3">
+                        <p>详细信息:</p>
+                    </div>
+                    <div class="col-sm-9">
+                        <textarea name="reason" class="ws10 rea" id="rea" style="height:20%;margin-top: 10px;"></textarea>
+                    </div>
+                </div>
+            </div>
+            
+<!--            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <p>修改项:</p> 
+                    </div>
+                    <div class="col-sm-9">
+                        <p id="oldinfo">应用权限管理安全 通过</p>
+                        <input type="hidden" name="oldresult" value="1">
+                        
+                        <input type="hidden" name="appid" value="1205">
+                        <input type="hidden" name="testname" value="10">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <p>修改为:</p>
+                    </div>
+                    <div class="col-sm-9">
+                        <select id="selectnewresult" name="newresult" class="pl10 bcn oh">
+                            <option class="pl10 bcn oh" value="1">通过</option><option class="pl10 bcn oh" value="2">低危</option><option class="pl10 bcn oh" value="3">中危</option><option class="pl10 bcn oh" value="4">高危</option>			              </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <p>修改理由:</p>
+                    </div>
+                    <div class="col-sm-9">
+                        <textarea name="reason" class="ws10" style="height:20%;margin-top: 10px;"></textarea>
+                    </div>
+                </div>
+            </div>-->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="editmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <form action="__URL__/save" method='post'>
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">修改当前项目</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <p >类别:</p> 
+                    </div>
+                    <div class="col-sm-9">
+                        <p id="oldinfos" name='testtype'></p>
+                        <input type="hidden" name="oldresult">
+                        <input type="hidden" name="id" >
+                        <input type="hidden" name="testname" >
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <p>危险程度为:</p>
+                    </div>
+                    <div class="col-sm-9">
+                        <select id="selectnewresult2" name="newresult" class="pl10 bcn oh">
+                             <volist name="resultlist" id="vr">
+                                <option class="pl10 bcn oh" value="{$vr.result}" >{$vr.zhresult}</option>
+                            </volist>
+<!--                            <option class="pl10 bcn oh" value="1">通过</option><option class="pl10 bcn oh" value="2">低危</option><option class="pl10 bcn oh" value="3">中危</option><option class="pl10 bcn oh" value="4">高危</option>-->			
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <p>详细信息:</p>
+                    </div>
+                    <div class="col-sm-9">
+                        <textarea name="reason" class="ws10 rea2" style="height:20%;margin-top: 10px;"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <input class="btn btn-primary" type="submit" value="提交">
+            </div>
+
+        </div><!-- /.modal-content --></form>
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <form action="__URL__/delete" method='post'>
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">删除</h4>
+            </div>
+             <div class="modal-body">
+                 <div class="row">
+                     <div class="col-sm-3"></div>
+                    <div class="col-sm-9">
+                         <input type="hidden" name="id" >
+                          <input type="hidden" name="appid" >
+                        <p style="font-size:32px;">真的要删除这条数据吗？</p> 
+                    </div>
+                   
+                </div>
+                 
+              
+                 
+               <div class="modal-footer">
+                <input class="btn btn-primary" type="submit" value="确定">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                
+            </div>
+
+             </div></form>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    function checkModal(info,reuselt,testtype) {
+      //  alert(reuselt);
+      
+         $('#checkmodal').fadeIn();
+           $('.rea').text(info);
+            $('#testtype').html(testtype);
+      // $('input[name=testtypes]').val(testtype);
+       $('input[name=reuseltss]').val(reuselt);
+        
+        $("#checkmodal").modal('show');
+    }
+   // $(".check").on("click", checkModal);
+  
+    function editModal(id,info,reuselt,testtype) {
+        //alert(id+info+reuselt+testtype);
+         $('#editmodal').fadeIn();
+          $('#oldinfos').html(testtype);
+           $('.rea2').text(info);
+       var sel = document.getElementById('selectnewresult2');
+         
+      for (var i = 0; i <sel.options.length; i++) {
+    	  if(reuselt == sel.options[i].value){
+    		sel.options[i].selected = true;
+               console.log(sel.options[i].value);
+    	} 
+    }
+           $('input[name=oldresult]').val(reuselt);
+             $('input[name=id]').val(id);
+          $("#editmodal").modal('show');
+    }
+  //  $(".edit").on("click", editModal);
+  
+  function deleteModel(id,appid){
+         $('input[name=id]').val(id);
+          $('input[name=appid]').val(appid);
+         $("#delete").modal('show');
+  }
+</script>
+<script type="text/javascript" src="__PUBLIC__/js/basedetial_report.js"></script>
+<include file="Layout/footer"/>

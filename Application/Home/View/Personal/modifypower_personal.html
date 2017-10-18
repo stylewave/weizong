@@ -1,0 +1,166 @@
+<include file="Layout/header" />
+
+<div class="layout ws10 mac content afcf yonghuBox">
+  <div class="mt30 bc2box br10 p30 ofh">
+    <div class="ws2 fl sleft">
+      <ul class="fs14 lh30 mr30 tac">
+        <li class="bc1box br3"><a href="{:U('Manage/info_manage')}">账户管理</a></li>
+        <li class="mt5"><a href="{:U('Vocationtype/list_vocationtype')}">应用类型</a></li>
+        <li class="mt5"><a href="{:U('Company/list_company')}">部门名称</a></li>
+        <li class="mt5"><a href="{:U('Manage/log_manage')}">日志管理</a></li>
+        <li class="mt5"><a href="{:U('Manage/pdfext_list')}">报告设置</a></li>
+        <!-- <li class="mt5"><a href="{:U('Manage/feedbacklist_manage')}">应用反馈</a></li> -->
+      </ul>
+    </div>
+    <div class="ws10 fr bdl9 pl30 pr30 sright">
+    <!-- 修改次数限制 -->  
+    <form class="form" action="__SELF__" method="POST" id="form3">
+        <div class="fs16 fwb"><span>修改权限</span><a style="float: right;margin-right:2%;" class="fr bc3box pt5 pb5 pl20 pr20 fs14 tac br3" href="{:U('Manage/info_manage')}">返回</a></div>
+        <table cellspacing="0" cellpadding="5" class="mt20">
+          <tr>
+            <td class="tar"></td>
+            <td class="pl10">{$info.loginemail}</td>
+            <td class="pl10">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="tar nwp">上传限制类型</td>
+            <td class="pl10">
+            <volist name="limittypelist" id="vl" key='kl'>
+            <input  type="radio" value='{$vl.id}' name="uploadlimittype" <if condition="$userpower['uploadlimittype'] eq $vl['id']">  checked="checked" </if> <if condition="$vl['id'] eq '2'">onclick="$('#uploadtimespace').hide();" id='upload1'<else />onclick="$('#uploadtimespace').show();"</if> />{$vl.liminame}
+            <if condition="$vl['id'] eq '2'"><script>$('#uploadtimespace').hide();</script></if>
+            </volist>
+            </td>
+            <td class="pl10">&nbsp;</td>
+          </tr>
+           <tr id="uploadtimespace">
+            <td class="tar nwp">上传时间间隔</td>
+            <td class="pl10">
+            <select name="uparmar" class="pl10 bcn fcwhite">
+              <for start="1" end="13" name="utp">
+                <option value="{$utp}" <if condition="$userpower['utp'] eq $utp">selected='selected'</if> >{$utp}</option>
+              </for>
+            </select>
+            <select name="utimespace" class="pl10 bcn fcwhite">
+              <volist name="timespacelist" id="vt" key="kt">
+                <option value="{$vt.id}" <if condition="$userpower['uploadtimespaceid'] eq $vt['id']">selected='selected'</if> >{$vt.info}</option>
+              </volist>
+            </select>
+            </td>
+            <td class="pl10">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="tar">上传次数</td>
+            <td class="pl10"><input class="ws12 wzh_input p5 bcn bd9 fcf" type="text" name="uploadlimit" value="{$userpower['uploadlimit']}" /></td>
+            <td class="pl10"><span id="uploadinfo" style="color:red;">&nbsp;</span></td>
+          </tr>
+          <tr>
+            <td class="tar nwp">下载限制类型</td>
+            <td class="pl10">
+            <volist name="limittypelist" id="vl" key='kl1'>
+            <input  type="radio" value='{$vl.id}' name="downlimittype" <if condition="$userpower['downlimittype'] eq $vl['id']">  checked="checked" </if> <if condition="$vl['id'] eq '2'">onclick="$('#downtimespace').hide();" id="down1"<else />onclick="$('#downtimespace').show();"</if>  />{$vl.liminame}
+            </volist>
+            </td>
+            <td class="pl10">&nbsp;</td>
+          </tr>
+           <tr id="downtimespace">
+            <td class="tar nwp">下载时间间隔</td>
+            <td class="pl10">
+            <select name="dparmar" class="pl10 bcn fcwhite">
+              <for start="1" end="13" name='dtp'>
+                <option value="{$dtp}" <if condition="$userpower['dtp'] eq $dtp">selected='selected'</if> >{$dtp}</option>
+              </for>
+            </select>
+            <select name="dtimespace" class="pl10 bcn fcwhite">
+              <volist name="timespacelist" id="vt" key="kt">
+                <option value="{$vt.id}" <if condition="$userpower['downtimespaceid'] eq $vt['id']">selected='selected'</if> >{$vt.info}</option>
+              </volist>
+            </select>
+            </td>
+            <td class="pl10">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="tar nwp">下载次数</td>
+            <td class="pl10"><input class="ws12 p5 bcn bd9 fcf" type="text" name="downlimit"  value="{$userpower['downlimit']}"/></td>
+            <td class="pl10"><span id="downinfo"  style="color:red;">&nbsp;</span></td>
+          </tr>
+          <tr>
+            <td class="tar nwp">权限类型</td>
+            <td class="pl10">
+            <select name="payid" class="pl10 bcn fcwhite">
+              <volist name="userpaylist" id="vo">
+                <option value="{$vo.id}" <if condition="$userpower['userpayid'] eq $vo['id']">  
+                selected="selected" </if> >{$vo.zhpaytype}</option>
+              </volist>
+            </select>
+            
+            </td>
+            <td class="pl10">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="tar nwp">用户类型</td>
+            <td class="pl10">
+            <select name="usertype" class="pl10 bcn fcwhite">
+            <volist name="usertypelist" id="v1">
+              <option value="{$v1.id}" <if condition="$userpower['usertypeid'] eq $v1['id']">  
+                selected="selected" </if> >{$v1.zhusertype}</option>
+  
+              <?php if($v1['id'] == $userpower['usertypeid'] && $userpower['usertypeid'] == '2'): ?>
+                  <script type="text/javascript">
+                    $(document).ready(function(){
+                      $('#company').show();
+                      $('#vocation').hide();
+                    });
+                  </script>
+                <?php endif; ?>
+                <?php if($v1['id'] == $userpower['usertypeid'] && $userpower['usertypeid'] == '3'): ?>
+                  <script type="text/javascript">
+                    $(document).ready(function(){
+                      $('#company').hide();
+                      $('#vocation').show();
+                    });
+                  </script>
+                <?php endif; ?>
+
+            </volist>
+            </select>
+            </td>
+            <td class="pl10">&nbsp;</td>
+          </tr>
+          <tr id="company" style="display: none;">
+            <td class="tar nwp">部门名称</td>
+            <td class="pl10">
+            <select name="usercompany" class="pl10 bcn fcwhite">
+              <volist name="companylist" id="vo">
+                <if condition="$vo.zhcompanytype neq '无'">
+                  <option value="{$vo.id}"  <if condition="$userpower['comtypeid'] eq $vo['id']">  selected="selected" </if> />{$vo.zhcompanytype}</option>
+                </if>
+              </volist>
+            </select>
+            </td>
+            <td class="pl10">&nbsp;</td>
+          </tr>
+          <tr id="vocation" style="display: none;">
+            <td class="tar nwp">行业类型</td>
+            <td class="pl10">
+            <select name="uservocatype" class="pl10 bcn fcwhite">
+              <volist name="vocationtypelist" id="vv">
+                <if condition="$vv.zhvocationtype neq '无'">
+                  <option value="{$vv.id}" <if condition="$userpower['vocatypeid'] eq $vv['id']">  selected="selected" </if> />{$vv.zhvocationtype}</option>
+                </if>
+              </volist>
+            </select>
+            </td>
+            <td class="pl10">&nbsp;</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td class="pl10 pt20"><input type="button" class="ws12 bc3box p5 fs14 fcf tac db br3 bdn" value="修改" id="formsubmit3" /></td>
+            <td><font id="limitErrorInfo" color="red"></font></td>
+          </tr>
+        </table>
+      </form>
+    </div>
+  </div>
+</div>
+<script type="text/javascript" src="__PUBLIC__/js/modifypersonal.js"></script>
+<include file="Layout/footer" />

@@ -1,0 +1,62 @@
+<include file="Layout/header" />
+<div class="layout ws10 mac content afcf yonghuBox">
+  <div class="mt30 bc2box br10 p30 ofh">
+    <div class="ws2 fl sleft">
+      <ul class="fs14 lh30 mr30 tac">
+        <li><a href="{:U('Personal/info_personal')}">账户信息</a></li>
+        <if condition="$_SESSION['power']['usertypeid'] eq '1' OR $_SESSION['power'] eq 'all'">
+        <li class="bc1box br3 mt5"><a href="{:U('Personal/editinfo_personal')}">修改信息</a></li>
+        </if>
+        <li class="mt5"><a href="{:U('Personal/editpass_personal')}">修改密码</a></li>
+        <!-- <li class="mt5"><a href="{:U('Personal/feedbacklist_personal')}">查看反馈</a></li> -->
+      </ul>
+    </div>
+    <div class="ws10 fr bdl9 pl30 pr30 sright">
+      <form class="form" action="__SELF__" method="post">
+      <div class="fs16 fwb">修改资料</div>
+        <table class="mt20 table table-hover">
+          <tr>
+            <td class="tar">姓名</td>
+            <td class="pl10"><input class="ws12 p5 wzh_input bcn bd9 fcf" type="text" name="username" value="{$info.realname}"/></td>
+            <td class="pl10"><span class="nwp"><input type="radio" <if condition="$info.dvrtype eq 0">checked='checked'</if> name="dvrtype" />个人</span>
+
+              <span class="nwp"><input type="radio" <if condition="$info.dvrtype eq 1">checked="checked"</if> name="dvrtype" />企业</span></td>
+          </tr>
+          <tr>
+            <td class="tar">电话</td>
+            <td class="pl10"><input class="ws12 wzh_input p5 bcn bd9 fcf" type="text" name="phone" value="{$info.phone}" /></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="tar">职业</td>
+            <td class="pl10"><input class="ws12 wzh_input p5 bcn bd9 fcf" type="text" name="job" value="{$info.job}"/></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="tar">地址</td>
+            <td class="pl10" colspan="2"><input class="ws12 wzh_input p5 bcn bd9 fcf" type="text" name="address" value="{$info.address}"/></td>
+          </tr>
+          <tr>
+            <td class="tar nwp">验证码</td>
+            <td class="pl10"><input class="ws12 wzh_input p5 bcn bd9 fcf" type="text" name="captcha"/></td>
+            <td class="pl10"><img src="__MODULE__/Layout/captcha" onclick="javascript:this.src = this.src +'?' + Math.random();" id='clickpic' style="width: 20%;" /><font color="red" id="tip">&nbsp;</font></td>
+          </tr>
+         <!--  <tr>
+            <td></td>
+            <td class="pl10 pt20"><font color="red" id="tip">&nbsp;</font></td>
+            <td></td>
+          </tr> -->
+          <tr>
+            <td></td>
+            <td class="pl10 pt20"><input type="button" class="ws12 bc3box p5 fs14 fcf tac db br3 bdn" value="更新资料" name="updatePersonalInfo" /></td>
+            <td></td>
+          </tr>
+        </table>
+      </form>
+    </div>
+  </div>
+</div>
+<include file="Layout/footer" />
+<script type="text/javascript" src="__PUBLIC__/js/editinfo.js"></script>
+</body>
+</html>

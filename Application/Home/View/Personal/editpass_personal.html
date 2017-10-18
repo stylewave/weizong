@@ -1,0 +1,52 @@
+<include file="Layout/header" />
+
+<div class="layout ws10 mac content afcf yonghuBox">
+  <div class="mt30 bc2box br10 p30 ofh">
+    <div class="ws2 fl sleft">
+      <ul class="fs14 lh30 mr30 tac">
+        <li><a href="{:U('Personal/info_personal')}">账户信息</a></li>
+        <if condition="$_SESSION['power']['usertypeid'] eq '1' OR $_SESSION['power'] eq 'all'">
+          <li class="mt5"><a href="{:U('Personal/editinfo_personal')}">修改信息</a></li>
+        </if>
+        <li class="bc1box br3 mt5"><a href="{:U('Personal/editpass_personal')}">修改密码</a></li>
+        <!-- <li class="mt5"><a href="{:U('Personal/feedbacklist_personal')}">查看反馈</a></li> -->
+      </ul>
+    </div>
+    <div class="ws10 fr bdl9 pl30 pr30 sright">
+      <form class="form" action="__SELF__" method="POST" id="form">
+        <div class="fs16 fwb">修改密码</div>
+        <table class="table table-hover mt20">
+          <tr>
+            <td class="tar">旧密码</td>
+            <td class="pl10"><input class="ws12 wzh_input p5 bcn bd9 fcf" type="password" name="pwd" /></td>
+            <td class="pl10">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="tar">新密码</td>
+            <td class="pl10"><input class="ws12 wzh_input p5 bcn bd9 fcf" type="password" name="pwd1" /></td>
+            <td class="pl10"><span id="pwd1info" style="color:red;">&nbsp;</span></td>
+          </tr>
+          <tr>
+            <td class="tar nwp">确认新密码</td>
+            <td class="pl10"><input class="ws12 wzh_input p5 bcn bd9 fcf" type="password" name="pwd2" /></td>
+            <td class="pl10"><span id="pwd2info"  style="color:red;">&nbsp;</span></td>
+          </tr>
+          <tr>
+            <td class="tar">验证码</td>
+            <td class="pl10"><input class="ws12 wzh_input p5 bcn bd9 fcf" type="text" name="captcha"/></td>
+            <td class="pl10"><img src="__MODULE__/Layout/captcha" onclick="javascript:this.src = this.src +'?' + Math.random();" id='clickpic' style="width: 20%;" />
+            <span id="captchainfo" style="color:red;">&nbsp;</span>
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td class="pl10 pt20"><input type="button" class="ws12 bc3box p5 fs14 fcf tac db br3 bdn" value="修改密码" id="form-submit" /></td>
+            <td></td>
+          </tr>
+        </table>
+      </form>
+    </div>
+  </div>
+</div>
+<script src="__PUBLIC__/js/editpass.js"></script>
+<include  file="Layout/footer" />

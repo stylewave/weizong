@@ -1,0 +1,35 @@
+@CHARSET "UTF-8";
+html,body{
+    background-image: url("../images/bg.png");	
+	background-size:100% 100%;
+	background-repeat:no-repeat;
+	height:100%;  
+}
+.login-panel{
+	margin-top:100px;
+	background-color:#000000;
+	opacity:0.5;
+	filter:alpha(opacity=50); /* For IE8 and earlier */
+	color:#ffffff;
+	border-radius:8px;
+}
+.login-panel h2{
+	text-align:center;
+	color:#ffffff;
+}
+.login-panel .row{
+	padding:10px;
+}
+.login-panel .input-group-addon,.form-control{
+    font-size: 16px;
+    color: #F1ECEC;
+    background-color: #231F1F;
+    height:40px;
+    border:0px solid #000000;
+	opacity:0.8;
+	filter:alpha(opacity=80); /* For IE8 and earlier */
+}
+.login-panel a{
+	color:#ffffff;
+	font-size:15px;
+}

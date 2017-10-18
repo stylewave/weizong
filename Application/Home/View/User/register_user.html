@@ -1,0 +1,63 @@
+<include file="Layout/header" />
+
+<body class="loginPage">
+<div class="layout ws10 mac">
+  <form class="formBox fr bc2box br5" action="__SELF__" method="POST" id="registerform">
+    <div class="fs24 fcf">注册账号</div>
+    <div class="text mt30">
+      <div class="mb5 fs14">你的邮箱地址&nbsp;&nbsp;<font id="emailcheck" color="red"></font></div>
+      <input class="ws12 p5 bcn bd9 fcf" maxlength="32" name="email" type="text" placeholder="请输入您的邮箱" />
+      <!-- <div class="mb5 fs14" id="emailcheck">&nbsp;</div> -->
+    </div>
+    <div class="text mt10">
+      <div class="mb5 fs14">输入密码&nbsp;&nbsp;<font id="pwd1info" color="red"></font></div>
+      <input  class="ws12 p5 bcn bd9 fcf" maxlength="32" name="pwd1" type="password" placeholder="请输入您的密码" />
+    </div>
+    <div class="text mt10">
+      <div class="mb5 fs14">确认密码&nbsp;&nbsp;<font id="pwd2info" color="red"></font></div>
+      <input  class="ws12 p5 bcn bd9 fcf" maxlength="32" name="pwd2" type="password" placeholder="重复您的密码" />
+    </div>
+    <div class="text mt10">
+      <div class="mb5 fs14">姓名</div>
+      <input  class="ws12 p5 bcn bd9 fcf" maxlength="32" name="username" type="text" placeholder="姓名" />
+    </div>
+	<div class="text mt10">
+      <div class="mb5 fs14">开发者类型&nbsp;<input  class="mb5 fs14" maxlength="32" name="dvrtype" type="radio" checked="checked" />个人
+      <input  class="mb5 fs14" maxlength="32" name="dvrtype" type="radio"  />企业</div>
+    </div>
+    <div class="text mt10" id="select">
+      <div class="mb5 fs14">密保问题&nbsp;
+      <select class="mb5 fs14" name="question[]" id='question1'>
+      	<option class="pl10 bcn">您的生日?</option>
+    		<option class="pl10 bcn">您的出生地址?</option>
+    		<option class="pl10 bcn">您最喜欢的人是谁?</option>
+    		<option class="pl10 bcn">您喜欢什么运动?</option>
+    		<option class="pl10 bcn">您的电话是多少?</option>
+    		<option class="pl10 bcn">自己编辑问题</option>
+      </select></div>
+    </div>
+    <div id="text" class="text mt10" style="display: none;">
+      <div class="mb5 fs14">密保问题</div>
+      <input  class="ws12 p5 bcn bd9 fcf" maxlength="32" name="question[]" type="text" id='question2' placeholder="密保问题" />
+    </div>
+
+    <div class="text mt10">
+      <div class="mb5 fs14">密保答案&nbsp;&nbsp;<font id="answerinfo" color="red"></font></div>
+      <input  class="ws12 p5 bcn bd9 fcf" maxlength="32" name="answer" type="text" placeholder="密保答案" />
+    </div>
+    <div class="text mt15 ofh"> <img src="__MODULE__/Layout/captcha" onclick="javascript:this.src = this.src +'?' + Math.random();" id="clickpic" class="fr mt5 captcha" style="width:85px;height:24px;"/>
+      <input  class="ws6 p5 bcn bd9 fcf" maxlength="16" type="text" name="captcha" placeholder="验证码" />
+    </div>
+    <div class="text mt10">
+      <font class="mb5 fs14" id="captchainfo" color="red">&nbsp;</font>
+    </div>
+    <table class="mt40" width="100%" cellspacing="0" cellpadding="0">
+      <tr>
+        <td class="pr5"><input class="fs14 br3 fcf bc0 tac p5 ws12 bd9" type="submit" value="提交" onclick="return false;" /></td>
+        <td class="pl5"><input class="fs14 br3 fcf bc0 tac p5 ws12 bd9" type="button" value="返回" onclick="location.href=$(this).attr('url')" url="{:U('User/login_user')}" /></td>
+      </tr>
+    </table>
+  </form>
+</div>
+<script type="text/javascript" src="__PUBLIC__/js/userRegister.js"></script>
+<include file="Layout:uifooter" />
